@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Interfaces\DriveApiInterface;
+use App\Interfaces\DriveConnectionInterface;
+use App\Services\GoogleDriveApiService;
+use App\Services\GoogleDriveConnectionService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +17,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(DriveApiInterface::class, GoogleDriveApiService::class);
+        $this->app->bind(DriveConnectionInterface::class, GoogleDriveConnectionService::class);
     }
 
     /**

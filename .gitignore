@@ -13,4 +13,17 @@ yarn-error.log
 /.idea
 /.vscode
 composer.lock
-/public/js
+
+#JS
+/public/js/
+/public/js/app.js
+/public/css/
+/public/css/app.css
+/public/mix-manifest.json
+
+# API management
+/app/brightwriter-f4a7737ed308.json
+/app/client_secret_208001095396-s0kvlf4vsijlvui1oopcjrloa81mvt5f.apps.googleusercontent.com.json
+/app/client_secret_drive.json
+/.php_cs.cache
+/storage/
