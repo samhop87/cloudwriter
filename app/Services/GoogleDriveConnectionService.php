@@ -49,6 +49,7 @@ class GoogleDriveConnectionService implements DriveConnectionInterface
     {
         // FOR TESTING PURPOSES
         // Valet share, then copy the http address into client secret, below and on the google dev console.
+        //
         $redirect_uri = 'http://f210-92-30-93-81.ngrok.io/authorise';
 
         $client = $this->setUp($redirect_uri);
@@ -72,14 +73,7 @@ class GoogleDriveConnectionService implements DriveConnectionInterface
             $client = $this->setUp();
 
             $client->setAccessToken($user->drive_token);
-
-            if ($type === User::DOCS) {
-                return new Google_Service_Docs($client);
-            }
-
-            if ($type === User::DRIVE) {
-                return new Google_Service_Drive($client);
-            }
+            return new Google_Service_Drive($client);
         } else {
             exit("Drive has not been authorised yet.");
         }
