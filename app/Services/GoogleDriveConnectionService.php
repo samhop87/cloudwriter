@@ -50,7 +50,7 @@ class GoogleDriveConnectionService implements DriveConnectionInterface
         // FOR TESTING PURPOSES
         // Valet share, then copy the http address into client secret, below and on the google dev console.
         //
-        $redirect_uri = 'http://f210-92-30-93-81.ngrok.io/authorise';
+        $redirect_uri = 'https://technicalbeatnik.co.uk/authorise';
 
         $client = $this->setUp($redirect_uri);
 
