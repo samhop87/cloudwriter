@@ -11,6 +11,8 @@
 |
 */
 
+use Illuminate\Support\Facades\Http;
+
 uses(Tests\TestCase::class)->in('Feature');
 
 /*
@@ -39,7 +41,15 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function something()
+function fakeGoogleConnection(): array
 {
-    // ..
+    $googleJson = [
+
+    ];
+
+    Http::fake([
+        '/api/authorise?code=*' => $googleJson,
+    ]);
+
+    return $googleJson;
 }
