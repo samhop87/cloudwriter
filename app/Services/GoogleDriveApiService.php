@@ -3,8 +3,8 @@
 namespace App\Services;
 
 use App\Interfaces\DriveApiInterface;
+use App\Models\MimeTypes;
 use App\Models\User;
-use App\Models\UserProject;
 use Google\Exception;
 use Google\Service\Drive\DriveFile;
 use Google\Service\Drive\FileList;
@@ -37,7 +37,7 @@ class GoogleDriveApiService implements DriveApiInterface
      */
     public function listFilesInFolder($folder_id): FileList
     {
-        $driveService = $this->driveConnectionService->setupService(User::DRIVE, Auth::user());
+        $driveService = $this->driveConnectionService->setupService(Auth::user());
         $optParams = [
             'fields' => "*",
             'q' => "'".$folder_id."' in parents"
@@ -57,7 +57,7 @@ class GoogleDriveApiService implements DriveApiInterface
     {
         // TODO: this needs refactoring so it can be used for folders and docs too.
         $user = Auth::user();
-        $service = $this->driveConnectionService->setupService(User::DRIVE, $user);
+        $service = $this->driveConnectionService->setupService($user);
 
         foreach ($user->projects as $project) {
             $item = $service->files->get($project->project_id, ["fields" => "*"])->explicitlyTrashed;
@@ -74,7 +74,7 @@ class GoogleDriveApiService implements DriveApiInterface
      */
     public function getLastProject(): ?Collection
     {
-        $project = UserProject::latest();
+        $project = User\Project::latest();
         return $this->retrieveProject($project->project_id);
     }
 
@@ -90,20 +90,18 @@ class GoogleDriveApiService implements DriveApiInterface
         $results = $this->listFilesInFolder($folder_id);
 
         foreach ($results->getFiles() as $item) {
-            if ($item->getMimeType() === 'application/vnd.google-apps.document') {
+            if ($item->getMimeType() === MimeTypes::DOCUMENT) {
                 $projectContainer->push(collect([
                     'id' => $item->getId(),
-                    'type' => $item->getMimeType(),
-                    'internal_type' => 'doc',
+                    'type' => MimeTypes::DOCUMENT,
                     'title' => $item->getName(),
                 ]));
-            } elseif ($item->getMimeType() === 'application/vnd.google-apps.folder') {
+            } elseif ($item->getMimeType() === MimeTypes::FOLDER) {
                 // Map into next folder down
                 $projectContainer->push(collect([
                     'id' => $item->getId(),
                     'title' => $item->getName(),
-                    'type' => $item->getMimeType(),
-                    'internal_type' => 'folder',
+                    'type' => MimeTypes::FOLDER,
                     'content' => $this->recursiveMapFolders($item->getId(), collect([])),
                 ]));
             }
@@ -120,13 +118,13 @@ class GoogleDriveApiService implements DriveApiInterface
      */
     public function createFolder(string $name, $folder_id = null): DriveFile
     {
-        $service = $this->driveConnectionService->setupService(User::DRIVE, Auth::user());
+        $service = $this->driveConnectionService->setupService(Auth::user());
 
         // Create a new drive file instance
         $folder = new \Google_Service_Drive_DriveFile();
 
         // Set drive file type to folder, and set name
-        $folder->setMimeType('application/vnd.google-apps.folder');
+        $folder->setMimeType(MimeTypes::FOLDER);
         $folder->setName($name);
 
         // Set the parent of the folder, unless it is main project folder.
@@ -145,7 +143,7 @@ class GoogleDriveApiService implements DriveApiInterface
      */
     public function createFile($folder_id = null, $title = null): DriveFile
     {
-        $service = $this->driveConnectionService->setupService(User::DRIVE, Auth::user());
+        $service = $this->driveConnectionService->setupService(Auth::user());
 
         $file = new \Google_Service_Drive_DriveFile();
 
@@ -154,7 +152,7 @@ class GoogleDriveApiService implements DriveApiInterface
         } else {
             $file->setName('Text Document');
         }
-        $file->setMimeType('application/vnd.google-apps.document');
+        $file->setMimeType(MimeTypes::DOCUMENT);
 
         if ($folder_id) {
             $file->setParents([$folder_id]);
@@ -176,7 +174,7 @@ class GoogleDriveApiService implements DriveApiInterface
      */
     public function getFile($file_id)
     {
-        $driveService = $this->driveConnectionService->setupService(User::DRIVE, Auth::user());
+        $driveService = $this->driveConnectionService->setupService(Auth::user());
         return $driveService->files->export($file_id, 'text/html', ['alt' => 'media']);
     }
 
@@ -196,7 +194,7 @@ class GoogleDriveApiService implements DriveApiInterface
             'data' => $complete,
         ];
 
-        $driveService = $this->driveConnectionService->setupService(User::DRIVE, Auth::user());
+        $driveService = $this->driveConnectionService->setupService(Auth::user());
 
         // File's new metadata.
 //        $file = new \Google_Service_Drive_DriveFile();
@@ -210,7 +208,7 @@ class GoogleDriveApiService implements DriveApiInterface
      * @throws Exception
      */
     public function deleteFile($id) {
-        $driveService = $this->driveConnectionService->setupService(User::DRIVE, Auth::user());
+        $driveService = $this->driveConnectionService->setupService(Auth::user());
         $file = $driveService->files->delete($id);
         // TODO: then refresh the tree, or find a way of dynamically removing the element
         // TODO: dynamically add the element. Do all the actual updating in the background.

@@ -11,7 +11,7 @@ interface DriveConnectionInterface
 
     public function auth($redirect_uri = null): string;
 
-    public function setupService($type, User $user);
+    public function setupService(User $user);
 
     public function generateBearerToken($code);
 

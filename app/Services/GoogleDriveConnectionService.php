@@ -31,7 +31,8 @@ class GoogleDriveConnectionService implements DriveConnectionInterface
         // Set this to force to consent form to display.
         $client->setApprovalPrompt('force');
         // Add the Google Drive scope to the request.
-        $client->addScope([Google_Service_Drive::DRIVE, Google_Service_Docs::DOCUMENTS]);
+//        $client->addScope([Google_Service_Drive::DRIVE, Google_Service_Docs::DOCUMENTS]);
+        $client->addScope(Google_Service_Drive::DRIVE);
         // Set redirect URI
         if ($redirect_uri) {
             $client->setRedirectUri($redirect_uri);
@@ -50,9 +51,7 @@ class GoogleDriveConnectionService implements DriveConnectionInterface
         // FOR TESTING PURPOSES
         // Valet share, then copy the http address into client secret, below and on the google dev console.
         //
-        $redirect_uri = 'https://technicalbeatnik.co.uk/authorise';
-
-        $client = $this->setUp($redirect_uri);
+        $client = $this->setUp(config('services.google.redirect_uri'));
 
         return $client->createAuthUrl();
     }
@@ -63,7 +62,7 @@ class GoogleDriveConnectionService implements DriveConnectionInterface
      * @return Google_Service_Docs|Google_Service_Drive|void
      * @throws Exception
      */
-    public function setupService($type, User $user)
+    public function setupService(User $user)
     {
         // Make sure token is valid
         if ($user->drive_token) {
