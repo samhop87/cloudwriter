@@ -3,8 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class AdminUserSeeder extends Seeder
 {
@@ -18,7 +18,7 @@ class AdminUserSeeder extends Seeder
         User::factory()->create([
             'name' => config('brightwriter.admin.name'),
             'email' => config('brightwriter.admin.email'),
-            'password' => config('brightwriter.admin.password'),
+            'password' => Hash::make(config('brightwriter.admin.password')),
         ]);
     }
 }

@@ -207,7 +207,8 @@ class GoogleDriveApiService implements DriveApiInterface
     /**
      * @throws Exception
      */
-    public function deleteFile($id) {
+    public function deleteFile($id)
+    {
         $driveService = $this->driveConnectionService->setupService(Auth::user());
         $file = $driveService->files->delete($id);
         // TODO: then refresh the tree, or find a way of dynamically removing the element
