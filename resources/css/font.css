@@ -1,0 +1,12 @@
+@font-face{
+    font-family:"MuseoModerno";
+    font-weight: bold;
+    font-style: normal;
+    src:url("../../public/fonts/MuseoModerno/static/MuseoModerno-Bold.ttf") format("truetype");
+}
+@font-face{
+    font-family:"MuseoModerno";
+    font-weight: normal;
+    font-style: normal;
+    src:url("../../public/fonts/MuseoModerno/static/MuseoModerno-Regular.ttf") format("truetype");
+}

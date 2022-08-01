@@ -43,6 +43,7 @@ class GoogleDriveConnectionController extends Controller
             $user->save();
         }
 
+        // TODO: what's the action here? Should this be a web route that redirects you to an authorised success page?
         return 'authorised'; // Meaning from now on, $user->drive_token is access object.
     }
 }

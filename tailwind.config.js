@@ -13,7 +13,38 @@ module.exports = {
         extend: {
             fontFamily: {
                 sans: ['Nunito', ...defaultTheme.fontFamily.sans],
+                display: ['MuseoModerno', ...defaultTheme.fontFamily.sans],
             },
+            colors: {
+                'turquoise': 'rgb(79, 209, 197)',
+                'deepgreen': 'rgba(9,114,102,255)',
+                'cleomagenta': 'rgb(219,65,99)',
+                'offblack': 'rgb(71,78,100)',
+                'colman': 'rgb(215,163,53)',
+                'github': '#6e5494',
+                'linkedIn': '#0072b1',
+                'neongreen': '#00FF00',
+                'neonred': '#FD1C03',
+                'neonpurple': '#CC00FF',
+                'darkpurple': '#6E0DD0',
+                'neonblue': '#0062FF'
+            },
+            width: {
+                "w-50-rem": "50rem",
+            },
+            fontSize: {
+                "display": "80px",
+                "mobile-display": "60px",
+            },
+            inset: {
+                '1/10': '10%'
+            }
+        },
+    },
+
+    variants: {
+        extend: {
+            opacity: ['disabled'],
         },
     },
 
