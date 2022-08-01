@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BaseboardController;
 use App\Http\Controllers\GoogleDriveConnectionController;
+use App\Http\Controllers\ProjectController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 // Baseboard web routes
 Route::name('baseboard.')->prefix('baseboard')->group(function () {
-    Route::get('/', [BaseboardController::class, 'index'])->name('admin.baseboard');
+    Route::get('/', [BaseboardController::class, 'index'])->name('index');
     Route::get('/generate-auth', [GoogleDriveConnectionController::class, 'generateAuthRequest'])->name('admin.generate-auth');
     // Route to generate bearer token
     Route::post('/authorise', [GoogleDriveConnectionController::class, 'authorise'])->name('admin.authorise');
@@ -35,11 +36,10 @@ Route::name('baseboard.')->prefix('baseboard')->group(function () {
 //    Route::get('create-project', [WizardController::class, 'create'])->name('create');
 //});
 
-//Route::name('files.')->prefix('files')->group(function () {
-//    Route::name('project.')->prefix('project')->group(function () {
-//        Route::post('/create', [BaseboardController::class, 'createProject'])->name('create');
-//        Route::get('/get', [BaseboardController::class, 'retrieveProject'])->name('get');
-//    });
+Route::name('project.')->prefix('project')->group(function () {
+        Route::post('/create', [ProjectController::class, 'create'])->name('create');
+        Route::get('/get', [ProjectController::class, 'retrieveProject'])->name('get');
+
 //    Route::name('folder.')->prefix('folder')->group(function () {
 //        Route::post('/create', [BaseboardController::class, 'createFolder'])->name('create');
 //        // this goes to the same delete function as delete file, it can be cleaned up later.
@@ -51,5 +51,5 @@ Route::name('baseboard.')->prefix('baseboard')->group(function () {
 //        Route::post('/update', [BaseboardController::class, 'updateFile'])->name('update');
 //        Route::delete('/delete', [BaseboardController::class, 'deleteFile'])->name('delete');
 //    });
-//});
+});
 
