@@ -17,9 +17,9 @@ class AdminUserSeeder extends Seeder
     public function run()
     {
         $user = User::factory()->create([
-            'name' => config('brightwriter.admin.name'),
-            'email' => config('brightwriter.admin.email'),
-            'password' => Hash::make(config('brightwriter.admin.password')),
+            'name' => config('cloudwriter.admin.name'),
+            'email' => config('cloudwriter.admin.email'),
+            'password' => Hash::make(config('cloudwriter.admin.password')),
         ]);
 
         $role = Role::create(['name' => 'admin']);

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BaseboardController;
+use App\Http\Controllers\FileController;
 use App\Http\Controllers\GoogleDriveConnectionController;
 use App\Http\Controllers\ProjectController;
 use Illuminate\Support\Facades\Route;
@@ -15,15 +16,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Baseboard web routes
-Route::name('baseboard.')->prefix('baseboard')->group(function () {
-    Route::get('/', [BaseboardController::class, 'index'])->name('index');
-    Route::get('/generate-auth', [GoogleDriveConnectionController::class, 'generateAuthRequest'])->name('admin.generate-auth');
-    // Route to generate bearer token
-    Route::post('/authorise', [GoogleDriveConnectionController::class, 'authorise'])->name('admin.authorise');
-});
-
-
-
+require 'web/baseboard.php';
 
 // Route to show authorised page, options etc.
 //Route::get('/authorising', [AuthorisationController::class, 'index'])->name('admin.authorising');
@@ -39,17 +32,13 @@ Route::name('baseboard.')->prefix('baseboard')->group(function () {
 Route::name('project.')->prefix('project')->group(function () {
         Route::post('/create', [ProjectController::class, 'create'])->name('create');
         Route::get('/get', [ProjectController::class, 'retrieveProject'])->name('get');
-
+//
 //    Route::name('folder.')->prefix('folder')->group(function () {
-//        Route::post('/create', [BaseboardController::class, 'createFolder'])->name('create');
+//        Route::post('/create', [])->name('create');
 //        // this goes to the same delete function as delete file, it can be cleaned up later.
 //        // it's just to make it clearer for me as i build this thing out.
 //        Route::delete('/delete', [BaseboardController::class, 'deleteFile'])->name('delete');
 //    });
-//    Route::name('file.')->prefix('file')->group(function () {
-//        Route::post('/create', [BaseboardController::class, 'createFile'])->name('create');
-//        Route::post('/update', [BaseboardController::class, 'updateFile'])->name('update');
-//        Route::delete('/delete', [BaseboardController::class, 'deleteFile'])->name('delete');
-//    });
+    require 'web/files.php';
 });
 

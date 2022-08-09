@@ -17,15 +17,6 @@ use Inertia\Inertia;
 
 require 'front/web.php';
 
-//Route::get('/', function () {
-//    return Inertia::render('Welcome', [
-//        'canLogin' => Route::has('login'),
-//        'canRegister' => Route::has('register'),
-//        'laravelVersion' => Application::VERSION,
-//        'phpVersion' => PHP_VERSION,
-//    ]);
-//});
-
 require __DIR__.'/auth.php';
 
 Route::middleware(['auth', 'verified'])->group(function () {

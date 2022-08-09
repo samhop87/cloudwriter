@@ -1,4 +1,4 @@
-name: Brightwriter
+name: CloudWriter
 
 on:
   push:
