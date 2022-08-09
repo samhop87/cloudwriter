@@ -24,7 +24,7 @@ interface DriveApiInterface
 
     public function getFile($file_id);
 
-    public function updateDocFile($file_id, $file_text);
+    public function updateFile($file_id, $file_text);
 
     public function deleteFile($id);
 }

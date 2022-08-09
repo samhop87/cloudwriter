@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProjectRequest;
 use App\Interfaces\DriveApiInterface;
+use App\Models\User\Project;
 use Google\Service\Drive\DriveFile;
+use Illuminate\Support\Collection;
 
 class ProjectController extends Controller
 {
@@ -18,6 +20,11 @@ class ProjectController extends Controller
     public function create(ProjectRequest $request): DriveFile
     {
         return $this->googleDriveApiService->createFolder($request->name);
+    }
+
+    public function show(Project $project): ?Collection
+    {
+        return $this->googleDriveApiService->retrieveProject($project->id);
     }
 
     public function delete($id)

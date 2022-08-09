@@ -25,7 +25,7 @@
             <div class="flex flex-col justify-center p-3 lg:p-0">
                 <Link :href="route('home')" class="cursor-pointer">
                 <div class="font-display sm:text-display text-mobile-display text-xl mb-4 text-center">
-                    Brightwriter
+                    CloudWriter
                 </div>
                 <div>
                     <p class="font-display text-sm mt-4 sm:mt-2 text-center sm:text-right">

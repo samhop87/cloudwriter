@@ -8,6 +8,8 @@ use App\Models\User;
 use Google\Exception;
 use Google\Service\Drive\DriveFile;
 use Google\Service\Drive\FileList;
+use Google\Service\RequestInterface;
+use Google\Service\ResponseInterface;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 
@@ -169,10 +171,10 @@ class GoogleDriveApiService implements DriveApiInterface
 
     /**
      * @param $file_id
-     * @return mixed
+     * @return RequestInterface|ResponseInterface|mixed
      * @throws Exception
      */
-    public function getFile($file_id)
+    public function getFile($file_id): mixed
     {
         $driveService = $this->driveConnectionService->setupService(Auth::user());
         return $driveService->files->export($file_id, 'text/html', ['alt' => 'media']);
@@ -181,9 +183,9 @@ class GoogleDriveApiService implements DriveApiInterface
     /**
      * @throws Exception
      */
-    public function updateDocFile($file_id, $file_text)
+    public function updateFile($file_id, $file_text)
     {
-        // TIME FOR A HACK!
+        // Add correct meta data to allow for HTML to be passed back in format doc requires
         $fullmeta = '<meta content="text/html; charset=UTF-8" http-equiv="content-type">';
         $replacement = '<html><head><meta content="text/html; charset=UTF-8" http-equiv="content-type"></head><body style="background-color:#ffffff;padding:72pt 72pt 72pt 72pt;max-width:468pt">';
         $string = str_replace($fullmeta,$replacement,$file_text);
@@ -205,12 +207,14 @@ class GoogleDriveApiService implements DriveApiInterface
     }
 
     /**
+     * @param $id
+     * @return RequestInterface|ResponseInterface|mixed
      * @throws Exception
      */
-    public function deleteFile($id)
+    public function deleteFile($id): mixed
     {
         $driveService = $this->driveConnectionService->setupService(Auth::user());
-        $file = $driveService->files->delete($id);
+        return $driveService->files->delete($id);
         // TODO: then refresh the tree, or find a way of dynamically removing the element
         // TODO: dynamically add the element. Do all the actual updating in the background.
     }
