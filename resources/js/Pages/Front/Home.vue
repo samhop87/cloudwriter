@@ -1,5 +1,5 @@
 <template>
-    <Head title="Welcome"/>
+    <Head/>
     <div ref="titleTop">
         <div
             class="flex flex-col justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center sm:pt-0">
