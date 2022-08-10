@@ -15,4 +15,4 @@ Route::name('baseboard.')->prefix('baseboard')->group(function () {
 });
 
 // Route to generate bearer token
-Route::post('/authorise', [GoogleDriveConnectionController::class, 'authorise'])->name('admin.authorise');
+Route::get('/authorise', [GoogleDriveConnectionController::class, 'authorise'])->name('admin.authorise');
