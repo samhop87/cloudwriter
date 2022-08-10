@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Route;
 Route::name('baseboard.')->prefix('baseboard')->group(function () {
     Route::get('/', [BaseboardController::class, 'index'])->name('index');
     Route::get('/generate-auth', [GoogleDriveConnectionController::class, 'generateAuthRequest'])->name('admin.generate-auth');
-    // Route to generate bearer token
-    Route::post('/authorise', [GoogleDriveConnectionController::class, 'authorise'])->name('admin.authorise');
 });
+
+// Route to generate bearer token
+Route::post('/authorise', [GoogleDriveConnectionController::class, 'authorise'])->name('admin.authorise');
