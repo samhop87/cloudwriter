@@ -22,9 +22,12 @@ class ProjectController extends Controller
         return $this->googleDriveApiService->createFolder($request->name);
     }
 
-    public function show(Project $project): ?Collection
+    public function show(): ?Collection
     {
-        return $this->googleDriveApiService->retrieveProject($project->id);
+        $id = request()->project_id;
+
+        // TODO: this should return a page.
+        return $this->googleDriveApiService->retrieveProject($id);
     }
 
     public function delete($id)

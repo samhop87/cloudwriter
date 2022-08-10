@@ -17,7 +17,7 @@ import { Head } from '@inertiajs/inertia-vue3';
             <div class="bg-white">
                 You have successfully authorised your account. Get writing!
             </div>
-            <a class="flex p-4 border-black" href="{{ route('baseboard.index') }}">
+            <a class="flex p-4 border-black" :href="route('baseboard.index')">
                 Go back to baseboard.
             </a>
         </div>
