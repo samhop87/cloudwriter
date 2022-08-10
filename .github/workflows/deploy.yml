@@ -62,8 +62,8 @@ jobs:
           script: |
             cd /var/www/cloudwriter.app
             php artisan down
-            git fetch origin master
-            git reset --hard origin/master
+            sudo git fetch origin master
+            sudo git reset --hard origin/master
             sudo chgrp -R www-data storage bootstrap/cache
             sudo chmod -R ug+rwx storage bootstrap/cache
             composer install --no-interaction --prefer-dist --optimize-autoloader
