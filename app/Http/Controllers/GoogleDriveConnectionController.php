@@ -7,6 +7,8 @@ use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
+use Inertia\Inertia;
+use Inertia\Response;
 
 /**
  * class GoogleDriveConnectionController
@@ -33,9 +35,8 @@ class GoogleDriveConnectionController extends Controller
 
     /**
      * Generates the bearer token using the code returned from Google when user is redirected back to site.
-     * @return string
      */
-    public function authorise(): string
+    public function authorise(): Response
     {
         if (request()->code) {
             $user = User::find(1); // This will be authorised user once login is set up
@@ -43,7 +44,9 @@ class GoogleDriveConnectionController extends Controller
             $user->save();
         }
 
-        // TODO: what's the action here? Should this be a web route that redirects you to an authorised success page?
-        return 'authorised'; // Meaning from now on, $user->drive_token is access object.
+        return Inertia::render('Authorised', [
+            'laravelVersion' => \Illuminate\Foundation\Application::VERSION,
+            'phpVersion' => PHP_VERSION,
+        ]);
     }
 }
