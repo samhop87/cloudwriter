@@ -1,11 +1,11 @@
 <template>
-    <Head/>
+    <Head title="Welcome"/>
     <div ref="titleTop">
         <div
             class="flex flex-col justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center sm:pt-0">
             <div v-if="canLogin" class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
-                <Link v-if="$page.props.auth.user.id" :href="route('dashboard')" class="text-sm text-gray-700 underline">
-                    Dashboard
+                <Link v-if="$page.props.auth.user.id" :href="route('baseboard.index')" class="text-sm text-gray-700 underline">
+                    Baseboard
                 </Link>
 
                 <template v-else>
