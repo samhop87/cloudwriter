@@ -31,7 +31,7 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
     'google' => [
-        'redirect_uri' => 'https://technicalbeatnik.co.uk/authorise',
+        'redirect_uri' => 'https://cloudwriter.technicalbeatnik.co.uk/authorise',
     ],
 
 ];
