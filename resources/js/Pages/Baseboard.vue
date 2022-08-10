@@ -18,11 +18,15 @@ import { Head } from '@inertiajs/inertia-vue3';
                 This is the user baseboard, welcoming them to the app.
                 - It contains the auth journey. Pretty useless without it.
             </div>
-            <a :href="route('baseboard.admin.generate-auth')" class="p-6 bg-turquoise" v-if="!$page.props.auth.user.drive_token">
+            <a :href="route('baseboard.admin.generate-auth')"
+               class="p-6 bg-turquoise flex m-2"
+               v-if="!$page.props.auth.user.drive_token">
                 Authorise Drive, Redirects to auth page
             </a>
 
-            <a :href="route('baseboard.admin.generate-auth')" class="p-6 bg-cleomagenta" v-if="$page.props.auth.user.drive_token">
+            <a :href="route('project.show')"
+               class="p-6 bg-cleomagenta flex m-2"
+               v-if="$page.props.auth.user.drive_token">
                 Retrieve project
             </a>
         </div>
