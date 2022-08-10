@@ -60,7 +60,7 @@ jobs:
           key: ${{ secrets.SSHKEY }}
           username: ${{ secrets.USERNAME }}
           script: |
-            cd /var/www/brightwriter.app
+            cd /var/www/cloudwriter.app
             php artisan down
             git fetch origin master
             git reset --hard origin/master
