@@ -80,11 +80,15 @@ class GoogleDriveConnectionService implements DriveConnectionInterface
 
     /**
      * @param $code
-     * @return false|string
+     * @return array|false|string
      * @throws Exception
      */
-    public function generateBearerToken($code)
+    public function generateBearerToken($code): bool|array|string
     {
+        if (app()->environment('testing')) {
+            return fakeGoogleConnection();
+        }
+
         $client = $this->setUp();
 
         // Make the token request

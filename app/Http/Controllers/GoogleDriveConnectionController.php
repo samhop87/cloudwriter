@@ -39,7 +39,7 @@ class GoogleDriveConnectionController extends Controller
     public function authorise(): Response
     {
         if (request()->code) {
-            $user = User::find(1); // This will be authorised user once login is set up
+            $user = auth()->user(); // This will be authorised user once login is set up
             $user->drive_token = $this->googleDriveConnectionService->generateBearerToken(request()->code);
             $user->save();
         }
