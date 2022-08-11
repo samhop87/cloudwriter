@@ -1,6 +1,6 @@
 <script setup>
 import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue';
-import { Head } from '@inertiajs/inertia-vue3';
+import {Head} from '@inertiajs/inertia-vue3';
 import ProjectTree from "@/Pages/Components/ProjectTree.vue";
 
 defineProps({
@@ -9,7 +9,7 @@ defineProps({
 </script>
 
 <template>
-    <Head title="Current Project" />
+    <Head title="Current Project"/>
 
     <BreezeAuthenticatedLayout>
         <template #header>
@@ -20,17 +20,25 @@ defineProps({
 
         <div class="p-12">
             <div class="bg-white">
-                {{ project }}
+                <div v-if="project">
+                    <project-tree :id="project.id"
+                                  :title="project.name"
+                                  :folder="project.project"
+                                  :depth="0"
+                                  :type="'project'">
+                    </project-tree>
+                </div>
             </div>
-        </div>
-
-        <div v-if="project" class="my-4 border-black border-4">
-            <project-tree :id="project.id"
-                          :title="project.name"
-                          :folder="project.project"
-                          :depth="0"
-                          :type="'project'">
-            </project-tree>
         </div>
     </BreezeAuthenticatedLayout>
 </template>
+
+<script>
+export default {
+    computed: {
+        computedProject() {
+            return this.project.project
+        }
+    }
+}
+</script>

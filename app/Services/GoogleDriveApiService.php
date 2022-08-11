@@ -96,6 +96,7 @@ class GoogleDriveApiService implements DriveApiInterface
                 $projectContainer->push(collect([
                     'id' => $item->getId(),
                     'type' => MimeTypes::DOCUMENT,
+                    'internal_type' => 'doc',
                     'title' => $item->getName(),
                 ]));
             } elseif ($item->getMimeType() === MimeTypes::FOLDER) {
@@ -104,6 +105,7 @@ class GoogleDriveApiService implements DriveApiInterface
                     'id' => $item->getId(),
                     'title' => $item->getName(),
                     'type' => MimeTypes::FOLDER,
+                    'internal_type' => 'folder',
                     'content' => $this->recursiveMapFolders($item->getId(), collect([])),
                 ]));
             }

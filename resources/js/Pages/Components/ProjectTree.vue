@@ -4,17 +4,17 @@
             <div @click="toggleChildrenOrOpen(type, id)"
                  class="cursor-pointer flex flex-row flex-wrap"
             >
-                <div class="p-4 mx-1">{{ title }} - {{ type }}</div>
+                <div class="p-4 mx-1">{{ title ? title : name }} - {{ type }}</div>
             </div>
-            <Link v-if="type !== 'project'"
-                  class="text-xl"
-                  :href="type === 'doc' ? route('files.file.delete', { id: id }) : route('files.folder.delete', { id: id })"
-                  method="delete"
-                  preserve-scroll
-                  preserve-state
-                  as="button">
-                X
-            </Link>
+<!--            <Link v-if="type !== 'project'"-->
+<!--                  class="text-xl"-->
+<!--                  :href="type === 'doc' ? route('file.file.delete', { id: id }) : route('file.folder.delete', { id: id })"-->
+<!--                  method="delete"-->
+<!--                  preserve-scroll-->
+<!--                  preserve-state-->
+<!--                  as="button">-->
+<!--                X-->
+<!--            </Link>-->
         </div>
         <div class="flex flex-row flex-wrap">
             <div v-if="type === 'folder' && showChildren || type === 'project' && showChildren"

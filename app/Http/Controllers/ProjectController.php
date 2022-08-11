@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProjectRequest;
 use App\Interfaces\DriveApiInterface;
+use App\Models\User\Project;
 use Google\Service\Drive\DriveFile;
-use Illuminate\Support\Collection;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Redirector;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -18,20 +21,40 @@ class ProjectController extends Controller
         $this->googleDriveApiService = $googleDriveApiService;
     }
 
+    public function index(): Response
+    {
+        return Inertia::render('OpenProject', [
+            'project' => session('current_project'),
+        ]);
+    }
+
     public function create(ProjectRequest $request): DriveFile
     {
         return $this->googleDriveApiService->createFolder($request->name);
     }
 
-    public function show(): Response
+    public function show(): Redirector|Application|RedirectResponse
     {
-        $id = request()->project_id;
+        $retrievedProject = Project::where('project_id', request()->project_id)->first();
 
-        // [{"id":"1IX-KpPt1ejjBgSfdCm3afCKFCBABZkHd_Pz0p2xt6sA","type":"application\/vnd.google-apps.document","title":"This is a file test"},{"id":"1rttU_TD9Y5khQU2Adn-e-YLjG-nIsnJoyNr53IDNc1A","type":"application\/vnd.google-apps.document","title":"Text Document"},{"id":"1MXbPvHCzFpxyRwz4MDqgDvy2jCEprcY1","title":"subfolder","type":"application\/vnd.google-apps.folder","content":[{"id":"1_1csCZjgmLXfXFSDn4l_8HTtt7cqL0PETjYub1qljhY","type":"application\/vnd.google-apps.document","title":"this one - neil isn't listening"},{"id":"1E9LKq718f5hQJDvKQbOkq0jyGp2G1Mh6PsOrpFEF4fU","type":"application\/vnd.google-apps.document","title":"Sam's new text"},{"id":"1LyHDYO0pZ8ThJwlaRReX_K3Zu6vFuBpCu-dNIhIFisI","type":"application\/vnd.google-apps.document","title":"this is inside a sub folder"},{"id":"1hqGsd7xzABiHwuNY57KZG1OGR09Z_ub2","title":"FOLDER INSIDE","type":"application\/vnd.google-apps.folder","content":[{"id":"1ZNGUOnghPjWmA7naWPtc2f5j7ec8ozoZG2ymzL4IMB4","type":"application\/vnd.google-apps.document","title":"this needs to work automatically on submit"},{"id":"1r6d-HTsnk5zRSnbuyn8izDTW56eorA_uxb4r8EdC-Ms","type":"application\/vnd.google-apps.document","title":"neato!"},{"id":"1aXCeTFh9-1Z0CwgFql-ovyXEMbPpPLavMCB98ezhViE","type":"application\/vnd.google-apps.document","title":"EVEN deeper"}]}]}]
+        $project = collect([]);
 
-        return Inertia::render('OpenProject', [
-            'project' => $this->googleDriveApiService->retrieveProject($id),
+        // TODO: this should all be done on the vue side;
+        //  add the object immediately, greyed out until the id from google drive has been returned,
+        //  at which point it is attached to the object and a user can click through.
+        //  when they click to any other file, or the created file, the project is updated and the 'real' file is added
+        //  to the tree.
+//        if (empty(session('current_project')) || empty(session('current_project')[request()->project_name])) {
+        $project->push([
+            'id' => $retrievedProject->project_id,
+            'name' => $retrievedProject->project_name,
+            'project' => $this->googleDriveApiService->retrieveProject($retrievedProject->project_id)
         ]);
+
+        session(['current_project' => $project->first()]);
+//        }
+
+        return redirect(route('project.edit'));
     }
 
     public function delete($id)
