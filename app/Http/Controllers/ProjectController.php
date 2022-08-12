@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProjectRequest;
 use App\Interfaces\DriveApiInterface;
 use App\Models\User\Project;
+use App\Services\ProjectService;
 use Google\Service\Drive\DriveFile;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
@@ -15,10 +16,12 @@ use Inertia\Response;
 class ProjectController extends Controller
 {
     private DriveApiInterface $googleDriveApiService;
+    private ProjectService $projectService;
 
-    public function __construct(DriveApiInterface $googleDriveApiService)
+    public function __construct(DriveApiInterface $googleDriveApiService, ProjectService $projectService)
     {
         $this->googleDriveApiService = $googleDriveApiService;
+        $this->projectService = $projectService;
     }
 
     public function index(): Response
@@ -35,24 +38,8 @@ class ProjectController extends Controller
 
     public function show(): Redirector|Application|RedirectResponse
     {
-        $retrievedProject = Project::where('project_id', request()->project_id)->first();
-
-        $project = collect([]);
-
-        // TODO: this should all be done on the vue side;
-        //  add the object immediately, greyed out until the id from google drive has been returned,
-        //  at which point it is attached to the object and a user can click through.
-        //  when they click to any other file, or the created file, the project is updated and the 'real' file is added
-        //  to the tree.
-//        if (empty(session('current_project')) || empty(session('current_project')[request()->project_name])) {
-        $project->push([
-            'id' => $retrievedProject->project_id,
-            'name' => $retrievedProject->project_name,
-            'project' => $this->googleDriveApiService->retrieveProject($retrievedProject->project_id)
-        ]);
-
-        session(['current_project' => $project->first()]);
-//        }
+        // TODO: the session needs checking; is this first time or a refresh?
+        $this->projectService->refreshProject(request()->project_id);
 
         return redirect(route('project.edit'));
     }

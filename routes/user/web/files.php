@@ -9,8 +9,9 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 Route::name('file.')->prefix('file')->group(function () {
+    Route::get('/edit', [FileController::class, 'edit'])->name('edit');
     Route::post('/create', [FileController::class, 'create'])->name('create');
-    Route::get('/show', [FileController::class, 'show'])->name('show');
+    Route::get('{file:file_id}/show', [FileController::class, 'show'])->name('show');
     Route::put('/update', [FileController::class, 'update'])->name('update');
     Route::delete('/delete', [FileController::class, 'delete'])->name('delete');
 });

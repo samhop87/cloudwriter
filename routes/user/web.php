@@ -33,13 +33,8 @@ Route::name('project.')->prefix('project')->group(function () {
         Route::post('/create', [ProjectController::class, 'create'])->name('create');
         Route::get('/', [ProjectController::class, 'index'])->name('edit');
         Route::get('/get', [ProjectController::class, 'show'])->name('show');
-//
-//    Route::name('folder.')->prefix('folder')->group(function () {
-//        Route::post('/create', [])->name('create');
-//        // this goes to the same delete function as delete file, it can be cleaned up later.
-//        // it's just to make it clearer for me as i build this thing out.
-//        Route::delete('/delete', [BaseboardController::class, 'deleteFile'])->name('delete');
-//    });
-    require 'web/files.php';
+
+        require 'web/folders.php';
+        require 'web/files.php';
 });
 

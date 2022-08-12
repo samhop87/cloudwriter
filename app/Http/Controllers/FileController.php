@@ -7,6 +7,9 @@ use App\Http\Requests\UpdateFileRequest;
 use App\Interfaces\DriveApiInterface;
 use App\Models\File;
 use Google\Service\Drive\DriveFile;
+use Illuminate\Support\Collection;
+use Inertia\Inertia;
+use Inertia\Response;
 
 /**
  * Class FileController
@@ -28,22 +31,38 @@ class FileController extends Controller
         $this->googleDriveApiService = $googleDriveApiService;
     }
 
+    public function edit(): Response
+    {
+        return Inertia::render('CurrentFile', [
+            'current_file' => session('current_file'),
+        ]);
+    }
+
     /**
      * @param CreateFileRequest $request
      * @return DriveFile
      */
     public function create(CreateFileRequest $request): DriveFile
     {
-        return $this->googleDriveApiService->createFile($request->folder_id, $request->name);
+        return $this->googleDriveApiService->createFile(folder_id: $request->folder_id, title: $request->title);
     }
 
     /**
-     * @param File $file
-     * @return mixed
+     * @param $file_id
      */
-    public function show(File $file): mixed
+    public function show($file_id)
     {
-        return $this->googleDriveApiService->getFile($file->file_id);
+        $file = $this->googleDriveApiService->getFile($file_id);
+
+        $activeFile = collect([
+            'id' => $file_id,
+            'title' => 'test',
+            'content' => $file->getBody()->getContents(),
+        ]);
+
+        session(['current_file' => $activeFile]);
+
+        return redirect(route('project.file.edit'));
     }
 
     /**
@@ -51,9 +70,9 @@ class FileController extends Controller
      * @param UpdateFileRequest $request
      * @return mixed
      */
-    public function update(File $file, UpdateFileRequest $request): mixed
+    public function update(UpdateFileRequest $request): mixed
     {
-        return $this->googleDriveApiService->updateFile($file->file_id, $request->text);
+        return $this->googleDriveApiService->updateFile(file_id: $request->file_id, file_text: $request->text);
     }
 
     /**

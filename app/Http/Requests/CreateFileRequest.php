@@ -13,7 +13,7 @@ class CreateFileRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,8 @@ class CreateFileRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'folder_id' => 'required',
+            'title' => 'required',
         ];
     }
 }

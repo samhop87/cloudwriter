@@ -6,15 +6,15 @@
             >
                 <div class="p-4 mx-1">{{ title ? title : name }} - {{ type }}</div>
             </div>
-<!--            <Link v-if="type !== 'project'"-->
-<!--                  class="text-xl"-->
-<!--                  :href="type === 'doc' ? route('file.file.delete', { id: id }) : route('file.folder.delete', { id: id })"-->
-<!--                  method="delete"-->
-<!--                  preserve-scroll-->
-<!--                  preserve-state-->
-<!--                  as="button">-->
-<!--                X-->
-<!--            </Link>-->
+            <Link v-if="type !== 'project'"
+                  class="text-xl flex cursor-pointer bg-red-500"
+                  :href="type === 'doc' ? route('project.file.delete', { id: id }) : route('project.folder.delete', { id: id })"
+                  method="delete"
+                  preserve-scroll
+                  preserve-state
+                  as="button">
+                X
+            </Link>
         </div>
         <div class="flex flex-row flex-wrap">
             <div v-if="type === 'folder' && showChildren || type === 'project' && showChildren"
@@ -73,7 +73,7 @@ export default {
             if (type !== 'doc') {
                 this.showChildren = !this.showChildren;
             } else {
-                Inertia.get('/active-file?title=' + this.title, {file_id: id})
+                Inertia.get('/project/file/' + id + '/show')
             }
         },
         toggleContent() {
