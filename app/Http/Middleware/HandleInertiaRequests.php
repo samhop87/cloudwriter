@@ -49,8 +49,8 @@ class HandleInertiaRequests extends Middleware
                 ],
                 'admin' => $request->user() ? $request->user()->hasRole('admin') : null
             ],
-//            'current_project' => session('current_project'),
-//            'global_activated_file' => session('global_activated_file'),
+            'current_project' => session('current_project'),
+            'current_file' => session('global_activated_file'),
             'canLogin' => !$isAdminRoute ? Route::has('login') : false,
             'canRegister' => !$isAdminRoute ? Route::has('register') : false,
             'displayScrollUp' => !$frontPage,

@@ -7,6 +7,9 @@ use App\Http\Requests\UpdateFileRequest;
 use App\Interfaces\DriveApiInterface;
 use App\Models\File;
 use Google\Service\Drive\DriveFile;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Collection;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -49,18 +52,11 @@ class FileController extends Controller
 
     /**
      * @param $file_id
+     * @throws \Google\Exception
      */
-    public function show($file_id)
+    public function show($file_id): Redirector|Application|RedirectResponse
     {
-        $file = $this->googleDriveApiService->getFile($file_id);
-
-        $activeFile = collect([
-            'id' => $file_id,
-            'title' => 'test',
-            'content' => $file->getBody()->getContents(),
-        ]);
-
-        session(['current_file' => $activeFile]);
+        $this->googleDriveApiService->refreshSessionFile($file_id);
 
         return redirect(route('project.file.edit'));
     }

@@ -39,6 +39,7 @@ defineProps({
 </template>
 
 <script>
+
 export default {
     data() {
         return {
@@ -51,30 +52,18 @@ export default {
     created: function () {
         this.file.content = this.current_file.content
     },
-    setup() {
-
-    },
     methods: {
         registerUpdate(e) {
             this.file.content = e
             let options = []
             // TODO: register when the work is being saved, and display it to user.
             this.saveWheel = true
-            // _.debounce( () => {
-            //     console.log('hits')
-            //     this.saveWork()
-            // }, 500, options )
             this.saveWork()
-            console.log('gets to other side.')
+            console.log('save request sent')
             this.saveWheel = false
         },
         saveWork() {
-            let timeout = null;
-            clearTimeout(timeout);
-            timeout = setTimeout(() => {
-                axios.put('/project/file/update', {file_id: this.current_file.id, text: this.file.content})
-            }, 1500);
-            return timeout
+            axios.put('/project/file/update', {file_id: this.current_file.id, text: this.file.content})
         }
     }
 }

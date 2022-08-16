@@ -206,6 +206,24 @@ class GoogleDriveApiService implements DriveApiInterface
 //        $file->setDescription($request->file_description);
 
         $newFile = $driveService->files->update($file_id, new \Google_Service_Drive_DriveFile(), $additionalParams);
+
+        $this->refreshSessionFile($newFile->getId());
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function refreshSessionFile($file_id)
+    {
+        $file = $this->getFile($file_id);
+
+        $activeFile = collect([
+            'id' => $file_id,
+            'title' => 'test',
+            'content' => $file->getBody()->getContents(),
+        ]);
+
+        session(['current_file' => $activeFile]);
     }
 
     /**

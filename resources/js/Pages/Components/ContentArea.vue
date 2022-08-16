@@ -4,10 +4,12 @@
          class="h-screen p-4 border-cleomagenta border-2"
          v-html="importContent"
          @input="handleInput"
-         @keydown="handleKeydown"/>
+    />
 </template>
 
 <script>
+import _ from "lodash";
+
 export default {
     props: {
         importContent: {
@@ -15,11 +17,8 @@ export default {
             required: false
         }
     },
-    mounted() {
-        // this.$el.innerHTML = this.importContent
-    },
     methods: {
-        handleInput(e) {
+        handleInput: _.debounce(function (e) {
             const {firstChild} = e.target
 
             if (firstChild && firstChild.nodeType === 3) {
@@ -29,16 +28,8 @@ export default {
             }
 
             this.$emit('magic', e.target.innerHTML)
-        },
-        handleDelayedInput(e) {
-            this.$nextTick(() => this.handleInput(e))
-        },
-        handleKeydown() {
-            console.log('handleKeydown')
-        }
+        }, 1000)
     },
-    // We need to ensure we update the innerHTML when it changes,
-    // without resetting the cursor.
     watch: {
         value(newValue) {
             if (this.$refs.content_editor.innerHTML !== newValue) {

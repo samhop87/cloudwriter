@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProjectRequest;
 use App\Interfaces\DriveApiInterface;
-use App\Models\User\Project;
 use App\Services\ProjectService;
 use Google\Service\Drive\DriveFile;
 use Illuminate\Contracts\Foundation\Application;
