@@ -26,6 +26,7 @@ class GoogleDriveConnectionController extends Controller
 
     /**
      * Redirects user to the Google oAuth page
+     *
      * @return Redirector|Application|RedirectResponse
      */
     public function generateAuthRequest(): Redirector|Application|RedirectResponse

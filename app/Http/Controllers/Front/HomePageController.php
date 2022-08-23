@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
-use Inertia\Inertia;
 use Illuminate\Foundation\Application;
+use Inertia\Inertia;
 use Inertia\Response;
 
 class HomePageController extends Controller

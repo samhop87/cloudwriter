@@ -15,11 +15,12 @@ class FolderController extends Controller
      * @var DriveApiInterface
      */
     private DriveApiInterface $googleDriveApiService;
+
     private ProjectService $projectService;
 
     /**
-     * @param DriveApiInterface $googleDriveApiService
-     * @param ProjectService $projectService
+     * @param  DriveApiInterface  $googleDriveApiService
+     * @param  ProjectService  $projectService
      */
     public function __construct(DriveApiInterface $googleDriveApiService, ProjectService $projectService)
     {

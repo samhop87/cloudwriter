@@ -16,7 +16,6 @@ class ProjectService
 
     public function handleProject()
     {
-
     }
 
     public function refreshProject($project_id)
@@ -28,10 +27,9 @@ class ProjectService
         $project->push([
             'id' => $retrievedProject->project_id,
             'name' => $retrievedProject->project_name,
-            'project' => $this->googleApiDriveService->retrieveProject($retrievedProject->project_id)
+            'project' => $this->googleApiDriveService->retrieveProject($retrievedProject->project_id),
         ]);
 
         session(['current_project' => $project->first()]);
     }
-
 }

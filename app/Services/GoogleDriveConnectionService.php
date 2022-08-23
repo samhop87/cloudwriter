@@ -12,8 +12,9 @@ use Google_Service_Drive;
 class GoogleDriveConnectionService implements DriveConnectionInterface
 {
     /**
-     * @param null $redirect_uri
+     * @param  null  $redirect_uri
      * @return Google_Client
+     *
      * @throws Exception
      */
     public function setUp($redirect_uri = null): Google_Client
@@ -42,8 +43,9 @@ class GoogleDriveConnectionService implements DriveConnectionInterface
     }
 
     /**
-     * @param null $redirect_uri
+     * @param  null  $redirect_uri
      * @return string
+     *
      * @throws Exception
      */
     public function auth($redirect_uri = null): string
@@ -58,8 +60,9 @@ class GoogleDriveConnectionService implements DriveConnectionInterface
 
     /**
      * @param $type
-     * @param User $user
+     * @param  User  $user
      * @return Google_Service_Docs|Google_Service_Drive|void
+     *
      * @throws Exception
      */
     public function setupService(User $user)
@@ -72,15 +75,17 @@ class GoogleDriveConnectionService implements DriveConnectionInterface
             $client = $this->setUp();
 
             $client->setAccessToken($user->drive_token);
+
             return new Google_Service_Drive($client);
         } else {
-            exit("Drive has not been authorised yet.");
+            exit('Drive has not been authorised yet.');
         }
     }
 
     /**
      * @param $code
      * @return array|false|string
+     *
      * @throws Exception
      */
     public function generateBearerToken($code): bool|array|string
@@ -98,8 +103,9 @@ class GoogleDriveConnectionService implements DriveConnectionInterface
     }
 
     /**
-     * @param User $user
+     * @param  User  $user
      * @return mixed|void
+     *
      * @throws Exception
      */
     public function refreshToken(User $user)
@@ -108,7 +114,7 @@ class GoogleDriveConnectionService implements DriveConnectionInterface
 
         // Refresh the token if it's expired.
         if ($user->drive_token && isset(json_decode($user->drive_token)->error)) {
-            exit("Google authorisation invalid, you need to reauthorise.");
+            exit('Google authorisation invalid, you need to reauthorise.');
         }
 
         $client->setAccessToken($user->drive_token);
@@ -121,5 +127,4 @@ class GoogleDriveConnectionService implements DriveConnectionInterface
 
         return $user->drive_token;
     }
-
 }

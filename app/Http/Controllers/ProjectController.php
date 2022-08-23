@@ -15,6 +15,7 @@ use Inertia\Response;
 class ProjectController extends Controller
 {
     private DriveApiInterface $googleDriveApiService;
+
     private ProjectService $projectService;
 
     public function __construct(DriveApiInterface $googleDriveApiService, ProjectService $projectService)

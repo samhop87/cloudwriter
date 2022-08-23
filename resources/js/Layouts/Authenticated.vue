@@ -21,7 +21,7 @@ const showingNavigationDropdown = ref(false);
                             <!-- Logo -->
                             <div class="shrink-0 flex items-center">
                                 <Link :href="route('baseboard.index')">
-                                    <BreezeApplicationLogo class="block h-9 w-auto" />
+                                    <BreezeApplicationLogo class="flex h-16 p-2 w-auto" />
                                 </Link>
                             </div>
 
@@ -36,7 +36,7 @@ const showingNavigationDropdown = ref(false);
                                     Current Project
                                 </BreezeNavLink>
                             </div>
-                            <div v-if="$page.props.current_file" class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <div v-if="$page.props.active_file" class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                 <BreezeNavLink :href="route('project.file.edit')" :active="route().current('project.file.edit')">
                                     Active File - title
                                 </BreezeNavLink>

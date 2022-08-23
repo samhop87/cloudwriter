@@ -10,7 +10,6 @@ use Google\Service\Drive\DriveFile;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
-use Illuminate\Support\Collection;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -27,7 +26,7 @@ class FileController extends Controller
     private DriveApiInterface $googleDriveApiService;
 
     /**
-     * @param DriveApiInterface $googleDriveApiService
+     * @param  DriveApiInterface  $googleDriveApiService
      */
     public function __construct(DriveApiInterface $googleDriveApiService)
     {
@@ -42,7 +41,7 @@ class FileController extends Controller
     }
 
     /**
-     * @param CreateFileRequest $request
+     * @param  CreateFileRequest  $request
      * @return DriveFile
      */
     public function create(CreateFileRequest $request): DriveFile
@@ -52,6 +51,7 @@ class FileController extends Controller
 
     /**
      * @param $file_id
+     *
      * @throws \Google\Exception
      */
     public function show($file_id): Redirector|Application|RedirectResponse
@@ -62,8 +62,8 @@ class FileController extends Controller
     }
 
     /**
-     * @param File $file
-     * @param UpdateFileRequest $request
+     * @param  File  $file
+     * @param  UpdateFileRequest  $request
      * @return mixed
      */
     public function update(UpdateFileRequest $request): mixed
@@ -72,7 +72,7 @@ class FileController extends Controller
     }
 
     /**
-     * @param File $file
+     * @param  File  $file
      * @return mixed
      */
     public function delete(File $file): mixed

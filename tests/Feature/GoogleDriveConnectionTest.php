@@ -2,9 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
-use Illuminate\Support\Facades\Http;
-
 beforeEach(function () {
     $this->person = $this->createUser();
 });
@@ -24,4 +21,3 @@ test('auth code returns access token', function () {
 
     expect($this->person->drive_token)->toBe($responseJson);
 });
-

@@ -24,12 +24,12 @@ defineProps({
                         <a class="p-4 m-4 border-black border-2" :href="route('project.edit')">
                             &lt; BACK
                         </a>
-                        <Link :href="route('project.file.update', { file_id: current_file.id, file_content: this.file.content})"
+                        <Link :href="route('project.file.update', { file_id: current_file.id, file_content: computedFileContent})"
                               method="post"
                               as="button"
-                              class="font-bold"
+                              class="font-bold flex border-black p-3 cursor-pointer"
                               preserve-scroll>
-                            {{ current_file.title }}
+                            Save: {{ current_file.title }}
                         </Link>
                     </div>
                     <content-area :import-content="current_file.content" @magic="registerUpdate"></content-area>
@@ -49,7 +49,7 @@ export default {
             }
         }
     },
-    created: function () {
+    created() {
         this.file.content = this.current_file.content
     },
     methods: {
@@ -64,6 +64,11 @@ export default {
         },
         saveWork() {
             axios.put('/project/file/update', {file_id: this.current_file.id, text: this.file.content})
+        }
+    },
+    computed: {
+        computedFileContent() {
+            return this.file && this.file.content ? this.file.content : null
         }
     }
 }
