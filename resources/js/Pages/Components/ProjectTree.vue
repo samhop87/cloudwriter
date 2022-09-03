@@ -1,8 +1,8 @@
 <template>
-    <div class="flex flex-row flex-wrap">
+    <div class="flex flex-col flex-wrap">
         <div :class="type === 'doc' ? 'p-1 border-cleomagenta border-2' : 'w-full border-green-300 border-4'">
             <div @click="toggleChildrenOrOpen(type, id)"
-                 class="cursor-pointer flex flex-row flex-wrap"
+                 class="cursor-pointer flex flex-col flex-wrap"
             >
                 <div class="p-4 mx-1">{{ title ? title : name }} - {{ type }}</div>
             </div>
@@ -16,14 +16,19 @@
                 X
             </Link>
         </div>
-        <div class="flex flex-row flex-wrap">
+        <div class="bg-black w-1/7 flex justify-center items-center content-center self-center">--</div>
+        <div class="flex flex-col flex-wrap">
             <div v-if="type === 'folder' && showChildren || type === 'project' && showChildren"
                  class="p-4 rounded-sm border-turquoise flex flex-row border-b w-full">
                 <input v-model="new_title" class="bg-blue-400" placeholder="Create new file inside this folder:">
                 <div @click="createFile(id)" class="p-2 bg-red-600 text-xl cursor-pointer">+</div>
-
                 <input v-model="new_folder" class="bg-yellow-500 ml-1" placeholder="Create new folder inside this folder:">
-                <div @click="createFolder(id)" class="p-2 bg-turquoise text-xl cursor-pointer">+</div>
+                <Link method="post"
+                      as="button"
+                      :href="route('project.folder.create', { parent_folder_id: id, title: this.new_folder })"
+                      class="p-2 bg-turquoise text-xl cursor-pointer">
+                    +
+                </Link>
             </div>
 
             <project-tree
@@ -41,8 +46,12 @@
 </template>
 <script>
 import {Inertia} from "@inertiajs/inertia";
+import {Link} from "@inertiajs/inertia-vue3"
 
 export default {
+    components: {
+        Link
+    },
     props: {
         id: {
             required: false
@@ -80,10 +89,11 @@ export default {
             this.showContent = !this.showContent
         },
         createFile(folder_id) {
-            Inertia.post('/files/file/create', {folder_id: folder_id, title: this.new_title})
+            Inertia.post('/project/file/create', {folder_id: folder_id, title: this.new_title})
         },
         createFolder(folder_id) {
-            Inertia.post('/files/folder/create', {folder_id: folder_id, folder_name: this.new_folder})
+            console.log('gets in')
+            Inertia.post('/project/folder/create', {folder_id: folder_id, folder_name: this.new_folder})
         }
     },
 }

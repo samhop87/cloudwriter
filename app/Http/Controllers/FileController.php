@@ -75,8 +75,9 @@ class FileController extends Controller
      * @param  File  $file
      * @return mixed
      */
-    public function delete(File $file): mixed
+    public function delete(): mixed
     {
-        return $this->googleDriveApiService->deleteFile($file->file_id);
+        // TODO: make this a redirect to the project page
+        return $this->googleDriveApiService->deleteFile(request()->id);
     }
 }

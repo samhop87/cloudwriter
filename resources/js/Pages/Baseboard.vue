@@ -21,11 +21,11 @@ defineProps({
                 This is the user baseboard, welcoming them to the app.
                 - It contains the auth journey. Pretty useless without it.
             </div>
-            <Link :href="route('baseboard.admin.generate-auth')"
+            <a :href="route('baseboard.admin.generate-auth')"
                class="p-6 bg-turquoise flex m-2"
                v-if="!$page.props.auth.user.drive_token">
                 Authorise Drive, Redirects to auth page
-            </Link>
+            </a>
 
             <a v-for="project in projects.data"
                :href="route('project.show') + '?project_id=' + project.project_id"
@@ -34,11 +34,11 @@ defineProps({
                 Retrieve project: {{ project.project_name }}
             </a>
 
-            <Link
+            <a
                class="p-6 bg-turquoise flex m-2"
                v-if="$page.props.auth.user.drive_token">
                 Create project // will lead to wizard
-            </Link>
+            </a>
         </div>
     </BreezeAuthenticatedLayout>
 </template>

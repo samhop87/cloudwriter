@@ -69,6 +69,7 @@ class GoogleDriveConnectionService implements DriveConnectionInterface
     {
         // Make sure token is valid
         if ($user->drive_token) {
+
             $this->refreshToken($user);
 
             // Set up google client
@@ -120,9 +121,8 @@ class GoogleDriveConnectionService implements DriveConnectionInterface
         $client->setAccessToken($user->drive_token);
         if ($client->isAccessTokenExpired()) {
             $accessToken = $client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
-            $user->update([
-                'drive_token' => json_encode($accessToken),
-            ]);
+            $user->drive_token = json_encode($accessToken);
+            $user->saveQuietly();
         }
 
         return $user->drive_token;

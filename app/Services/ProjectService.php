@@ -20,7 +20,7 @@ class ProjectService
 
     public function refreshProject($project_id)
     {
-        $retrievedProject = Project::where('project_id', request()->project_id)->first();
+        $retrievedProject = Project::where('project_id', $project_id)->first();
 
         $project = collect([]);
 
@@ -29,6 +29,9 @@ class ProjectService
             'name' => $retrievedProject->project_name,
             'project' => $this->googleApiDriveService->retrieveProject($retrievedProject->project_id),
         ]);
+
+        // TODO: reorder so oldest first
+        dd($project->first()['project']->sortDesc());
 
         session(['current_project' => $project->first()]);
     }
