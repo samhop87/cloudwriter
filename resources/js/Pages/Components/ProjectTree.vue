@@ -8,7 +8,7 @@
             </div>
             <Link v-if="type !== 'project'"
                   class="text-xl flex cursor-pointer bg-red-500"
-                  :href="type === 'doc' ? route('project.file.delete', { id: id }) : route('project.folder.delete', { id: id })"
+                  :href="type === 'doc' ? route('project.file.delete', { file_id: id }) : route('project.folder.delete', { folder_id: id })"
                   method="delete"
                   preserve-scroll
                   preserve-state
@@ -17,7 +17,7 @@
             </Link>
         </div>
         <div class="bg-black w-1/7 flex justify-center items-center content-center self-center">--</div>
-        <div class="flex flex-col flex-wrap">
+        <div class="flex flex-row flex-wrap">
             <div v-if="type === 'folder' && showChildren || type === 'project' && showChildren"
                  class="p-4 rounded-sm border-turquoise flex flex-row border-b w-full">
                 <input v-model="new_title" class="bg-blue-400" placeholder="Create new file inside this folder:">

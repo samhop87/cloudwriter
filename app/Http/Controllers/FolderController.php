@@ -30,7 +30,11 @@ class FolderController extends Controller
 
     public function create(CreateFolderRequest $request): Redirector|Application|RedirectResponse
     {
-        $this->googleDriveApiService->createFolder(name: $request->title, folder_id: $request->parent_folder_id);
+        $this->googleDriveApiService->createFolder(
+            name: $request->title,
+            folder_id: $request->parent_folder_id,
+            order: $request->order,
+        );
 
         $project_id = session('current_project')['id'];
 
@@ -46,7 +50,7 @@ class FolderController extends Controller
     {
         $this->googleDriveApiService->deleteFile(request()->folder_id);
 
-        $project_id = session('current_project')->get('project_id');
+        $project_id = session('current_project')['id'];
 
         $this->projectService->refreshProject($project_id);
 

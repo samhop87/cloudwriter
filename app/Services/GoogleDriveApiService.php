@@ -105,6 +105,7 @@ class GoogleDriveApiService implements DriveApiInterface
                     'type' => MimeTypes::DOCUMENT,
                     'internal_type' => 'doc',
                     'title' => $item->getName(),
+                    'order' => $item->getDescription(),
                 ]));
             } elseif ($item->getMimeType() === MimeTypes::FOLDER) {
                 // Map into next folder down
@@ -113,6 +114,7 @@ class GoogleDriveApiService implements DriveApiInterface
                     'title' => $item->getName(),
                     'type' => MimeTypes::FOLDER,
                     'internal_type' => 'folder',
+                    'order' => $item->getDescription(),
                     'content' => $this->recursiveMapFolders($item->getId(), collect([])),
                 ]));
             }
@@ -128,16 +130,21 @@ class GoogleDriveApiService implements DriveApiInterface
      *
      * @throws Exception
      */
-    public function createFolder(string $name, $folder_id = null): DriveFile
+    public function createFolder(string $name, $folder_id = null, $order = null): DriveFile
     {
         $service = $this->driveConnectionService->setupService(Auth::user());
 
         // Create a new drive file instance
         $folder = new \Google_Service_Drive_DriveFile();
 
+        if (!$order) {
+            $order = count(session('current_project')) + 1;
+        }
+
         // Set drive file type to folder, and set name
         $folder->setMimeType(MimeTypes::FOLDER);
         $folder->setName($name);
+        $folder->setDescription($order);
 
         // Set the parent of the folder, unless it is main project folder.
         if ($folder_id) {

@@ -30,8 +30,7 @@ class ProjectService
             'project' => $this->googleApiDriveService->retrieveProject($retrievedProject->project_id),
         ]);
 
-        // TODO: reorder so oldest first
-        dd($project->first()['project']->sortDesc());
+        $project->first()['project']->sortBy('order');
 
         session(['current_project' => $project->first()]);
     }
