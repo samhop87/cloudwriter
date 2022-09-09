@@ -3,10 +3,17 @@
 namespace App\Services;
 
 use App\Interfaces\DriveApiInterface;
+use App\Interfaces\ProjectServiceInterface;
 use App\Models\User\Project;
 
-class ProjectService
+/**
+ * Class ProjectService
+ */
+class ProjectService implements ProjectServiceInterface
 {
+    /**
+     * @var DriveApiInterface
+     */
     private DriveApiInterface $googleApiDriveService;
 
     public function __construct(DriveApiInterface $googleDriveApiService)
@@ -32,6 +39,6 @@ class ProjectService
 
         $project->first()['project']->sortBy('order');
 
-        session(['current_project' => $project->first()]);
+        return session(['current_project' => $project->first()]);
     }
 }

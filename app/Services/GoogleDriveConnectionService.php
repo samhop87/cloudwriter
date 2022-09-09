@@ -59,9 +59,8 @@ class GoogleDriveConnectionService implements DriveConnectionInterface
     }
 
     /**
-     * @param $type
-     * @param  User  $user
-     * @return Google_Service_Docs|Google_Service_Drive|void
+     * @param User $user
+     * @return Google_Service_Drive|void
      *
      * @throws Exception
      */
@@ -111,6 +110,7 @@ class GoogleDriveConnectionService implements DriveConnectionInterface
      */
     public function refreshToken(User $user)
     {
+        // TODO: this method doesn't work, possibly because not accepted by Google yet
         $client = $this->setUp();
 
         // Refresh the token if it's expired.
