@@ -4,30 +4,31 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateFolderRequest;
 use App\Interfaces\DriveApiInterface;
-use App\Services\ProjectService;
+use App\Interfaces\ProjectServiceInterface;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
 
 class FolderController extends Controller
 {
-    /**
-     * @var DriveApiInterface
-     */
     private DriveApiInterface $googleDriveApiService;
 
-    private ProjectService $projectService;
+    private ProjectServiceInterface $projectService;
 
     /**
-     * @param  DriveApiInterface  $googleDriveApiService
-     * @param  ProjectService  $projectService
+     * @param DriveApiInterface $googleDriveApiService
+     * @param ProjectServiceInterface $projectService
      */
-    public function __construct(DriveApiInterface $googleDriveApiService, ProjectService $projectService)
+    public function __construct(DriveApiInterface $googleDriveApiService, ProjectServiceInterface $projectService)
     {
         $this->googleDriveApiService = $googleDriveApiService;
         $this->projectService = $projectService;
     }
 
+    /**
+     * @param CreateFolderRequest $request
+     * @return Redirector|Application|RedirectResponse
+     */
     public function create(CreateFolderRequest $request): Redirector|Application|RedirectResponse
     {
         $this->googleDriveApiService->createFolder(
@@ -46,6 +47,9 @@ class FolderController extends Controller
         return redirect(route('project.edit'));
     }
 
+    /**
+     * @return Redirector|Application|RedirectResponse
+     */
     public function delete(): Redirector|Application|RedirectResponse
     {
         $this->googleDriveApiService->deleteFile(request()->folder_id);

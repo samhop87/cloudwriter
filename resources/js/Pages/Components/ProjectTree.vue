@@ -1,8 +1,8 @@
 <template>
-    <div class="flex flex-col flex-wrap">
+    <div class="flex flex-row">
         <div :class="type === 'doc' ? 'p-1 border-cleomagenta border-2' : 'w-full border-green-300 border-4'">
             <div @click="toggleChildrenOrOpen(type, id)"
-                 class="cursor-pointer flex flex-col flex-wrap"
+                 class="cursor-pointer flex flex-row"
             >
                 <div class="p-4 mx-1">{{ title ? title : name }} - {{ type }}</div>
             </div>
@@ -16,7 +16,10 @@
                 X
             </Link>
         </div>
-        <div class="bg-black w-1/7 flex justify-center items-center content-center self-center">--</div>
+        <div v-if="type !== 'project'" class="flex-row flex justify-center self-center text-center">
+            <div class="bg-black p-1 w-16"></div>
+            <div class="h-0 w-0 border-y-8 border-y-transparent border-l-[14px] border-l-blue-600"></div>
+        </div>
         <div class="flex flex-row flex-wrap">
             <div v-if="type === 'folder' && showChildren || type === 'project' && showChildren"
                  class="p-4 rounded-sm border-turquoise flex flex-row border-b w-full">

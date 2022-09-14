@@ -10,5 +10,5 @@ interface ProjectServiceInterface
 {
     public function handleProject();
 
-    public function refreshProject($project_id);
+    public function refreshProject($project_id): mixed;
 }

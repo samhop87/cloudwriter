@@ -5,6 +5,9 @@ namespace App\Services;
 use App\Interfaces\DriveApiInterface;
 use App\Interfaces\ProjectServiceInterface;
 use App\Models\User\Project;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Session\SessionManager;
+use Illuminate\Session\Store;
 
 /**
  * Class ProjectService
@@ -25,7 +28,11 @@ class ProjectService implements ProjectServiceInterface
     {
     }
 
-    public function refreshProject($project_id)
+    /**
+     * @param $project_id
+     * @return Application|SessionManager|Store|mixed
+     */
+    public function refreshProject($project_id): mixed
     {
         $retrievedProject = Project::where('project_id', $project_id)->first();
 
