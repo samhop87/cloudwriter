@@ -18,8 +18,9 @@
                            :w="item.w"
                            :h="item.h"
                            :i="item.i"
+                           @click="openFolder"
                 >
-                    <span class="text">{{item.i}}</span>
+                    <span class="text">{{ item.i }}</span>
                 </grid-item>
             </grid-layout>
         </div>
@@ -29,6 +30,7 @@
 <script>
 import { GridLayout, GridItem } from "vue3-grid-layout"
 import helpers from "@/Mixins/helpers";
+import {Inertia} from "@inertiajs/inertia";
 export default {
     mixins: [helpers],
     name: 'project-tree',
@@ -54,6 +56,23 @@ export default {
         for (let i = 0; i < this.folder.length; i++) {
             let clone = this.cloneObject(this.sample);
             clone.i = this.folder[i].title
+            let coordinates = null
+
+            if (i <= 5) {
+                coordinates = this.determineCoordinates(i)
+            } else if (i > 5) {
+                coordinates = this.determineCoordinates(i, 2)
+            } else if (i > 9 ) {
+                coordinates = this.determineCoordinates(i, 3)
+            }
+
+            if (coordinates && coordinates.x) {
+                clone.x = coordinates.x
+                clone.y = coordinates.y
+            }
+
+            console.log(clone)
+
             this.layout[i] = clone
         }
     },
@@ -70,6 +89,26 @@ export default {
             draggable: true,
             resizable: true,
             bounded: true
+        }
+    },
+    methods: {
+        determineCoordinates(i, depth = 1) {
+            let x = 0
+            let y = depth
+
+            x = i > 0 ? 2 * (Math.round(i / depth)) : 0
+
+            return {
+                'x': x,
+                'y': y,
+            }
+        },
+        openFolder() {
+            if (this.type !== 'doc') {
+                this.showChildren = !this.showChildren;
+            } else {
+                Inertia.get('/project/file/' + id + '/show')
+            }
         }
     }
 }

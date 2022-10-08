@@ -95,7 +95,6 @@ export default {
             Inertia.post('/project/file/create', {folder_id: folder_id, title: this.new_title})
         },
         createFolder(folder_id) {
-            console.log('gets in')
             Inertia.post('/project/folder/create', {folder_id: folder_id, folder_name: this.new_folder})
         }
     },
