@@ -1,8 +1,8 @@
 <template>
-    <div style="width:100%;">
+    <div style="width:100%;" class="bg-yellow-200">
         <div style="width:100%;margin-top: 10px;height:100%;">
             <grid-layout :layout.sync="layout"
-                         class="grid"
+                         class="bg-yellow-200"
                          :col-num="12"
                          :row-height="30"
                          :is-draggable="draggable"
@@ -19,6 +19,7 @@
                            :h="item.h"
                            :i="item.i"
                            @click="openFolder"
+                           class="bg-yellow-400 text-blue-700 border-cleomagenta border-2 rounded-md"
                 >
                     <span class="text">{{ item.i }}</span>
                 </grid-item>
@@ -115,13 +116,6 @@ export default {
 </script>
 
 <style scoped>
-.vue-grid-layout {
-    background: #eee;
-}
-.vue-grid-item:not(.vue-grid-placeholder) {
-    background: #ccc;
-    border: 1px solid black;
-}
 .grid::before {
     content: '';
     background-size: calc(calc(100% - 5px) / 12) 40px;
