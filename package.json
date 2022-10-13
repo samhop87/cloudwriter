@@ -27,6 +27,7 @@
         "vue": "^3.2.31"
     },
     "dependencies": {
+        "jsplumb": "^2.15.6",
         "nprogress": "^0.2.0",
         "vue3-grid-layout": "^1.0.0"
     }
