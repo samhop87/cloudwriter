@@ -8,9 +8,6 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 import NProgress from 'nprogress'
 import { Inertia } from '@inertiajs/inertia'
-import * as jsPlumb from '@jsplumb/browser-ui'
-import {Link} from "@inertiajs/inertia-vue3"
-
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
 
@@ -21,7 +18,6 @@ createInertiaApp({
         return createApp({ render: () => h(app, props) })
             .use(plugin)
             .use(ZiggyVue, Ziggy)
-            .use(jsPlumb)
             .mount(el);
     },
 });
