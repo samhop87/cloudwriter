@@ -62,7 +62,7 @@ class FileController extends Controller
     }
 
     /**
-     * @param UpdateFileRequest $request
+     * @param  UpdateFileRequest  $request
      * @return mixed
      */
     public function update(UpdateFileRequest $request): mixed

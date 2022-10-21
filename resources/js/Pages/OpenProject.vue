@@ -53,6 +53,7 @@ defineProps({
                                   :title="project.name"
                                   :folder="project.project"
                                   :depth="0"
+                                     :project="project"
                                   :type="'project'">
                     </project-diagram>
                 </div>

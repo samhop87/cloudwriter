@@ -59,7 +59,7 @@ class GoogleDriveConnectionService implements DriveConnectionInterface
     }
 
     /**
-     * @param User $user
+     * @param  User  $user
      * @return Google_Service_Drive|void
      *
      * @throws Exception
@@ -68,7 +68,6 @@ class GoogleDriveConnectionService implements DriveConnectionInterface
     {
         // Make sure token is valid
         if ($user->drive_token) {
-
             $this->refreshToken($user);
 
             // Set up google client

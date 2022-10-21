@@ -137,7 +137,7 @@ class GoogleDriveApiService implements DriveApiInterface
         // Create a new drive file instance
         $folder = new \Google_Service_Drive_DriveFile();
 
-        if (!$order) {
+        if (! $order) {
             $order = count(session('current_project')) + 1;
         }
 

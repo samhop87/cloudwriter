@@ -16,8 +16,8 @@ class FolderController extends Controller
     private ProjectServiceInterface $projectService;
 
     /**
-     * @param DriveApiInterface $googleDriveApiService
-     * @param ProjectServiceInterface $projectService
+     * @param  DriveApiInterface  $googleDriveApiService
+     * @param  ProjectServiceInterface  $projectService
      */
     public function __construct(DriveApiInterface $googleDriveApiService, ProjectServiceInterface $projectService)
     {
@@ -26,7 +26,7 @@ class FolderController extends Controller
     }
 
     /**
-     * @param CreateFolderRequest $request
+     * @param  CreateFolderRequest  $request
      * @return Redirector|Application|RedirectResponse
      */
     public function create(CreateFolderRequest $request): Redirector|Application|RedirectResponse

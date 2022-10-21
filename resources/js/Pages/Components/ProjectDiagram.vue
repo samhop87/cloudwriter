@@ -1,182 +1,213 @@
 <template>
-<div id="canvas" class="jtk-demo-canvas canvas-wide flowchart-demo jtk-surface jtk-surface-nopan">
-<div id="flowchartWindow1" class="window jtk-node">1</div>
-<div id="flowchartWindow2" class="window jtk-node">2</div>
-<div id="flowchartWindow3" class="window jtk-node">3</div>
-<div id="flowchartWindow4" class="window jtk-node">4</div>
+<div id="canvas" class="jtk-demo-canvas canvas-wide flowchart-demo jtk-surface jtk-surface-nopan relative">
+        <div v-for="(row, index) in project" class="h-16 p-10 absolute" :class="determineRow(index)">
+            {{
+                determineRow(index)
+            }}
+            <div>row header {{ index }}</div>
+            <div v-for="(item, index) in row"
+                 class="window jtk-node"
+                 :id="'flowchartWindow' + index"
+                 :class="determineIndent(index)">
+                {{ item[4] }}
+            </div>
+        </div>
 </div>
 </template>
 
 <script>
 import { jsPlumb as JSPlumb } from 'jsplumb'
 export default {
+    props: {
+        'project': {
+            required: true
+        }
+    },
     name: 'JsPlumb',
     data () {
         return {
         }
     },
     mounted () {
-        JSPlumb.ready(function() {
-            let instance = window.jsp = JSPlumb.getInstance({
-                // default drag options
-                DragOptions: { cursor: 'pointer', zIndex: 2000 },
-                // the overlays to decorate each connection with.  note that the label overlay uses a function to generate the label text; in this
-                // case it returns the 'labelText' member that we set on each connection in the 'init' method below.
-                ConnectionOverlays: [
-                    [ "Arrow", {
-                        location: 1,
-                        visible:true,
-                        width:11,
-                        length:11,
-                        id:"ARROW",
-                        events:{
-                            click:function() { alert("you clicked on the arrow overlay")}
-                        }
-                    } ],
-                    [ "Label", {
-                        location: 0.1,
-                        id: "label",
-                        cssClass: "aLabel",
-                        events:{
-                            tap:function() { alert("hey"); }
-                        }
-                    }]
-                ],
-                Container: "canvas"
-            });
-            let basicType = {
-                connector: "StateMachine",
-                paintStyle: { stroke: "red", strokeWidth: 4 },
-                hoverPaintStyle: { stroke: "blue" },
-                overlays: [
-                    "Arrow"
-                ]
-            };
-            instance.registerConnectionType("basic", basicType);
-            // this is the paint style for the connecting lines..
-            let connectorPaintStyle = {
-                    strokeWidth: 2,
-                    stroke: "#61B7CF",
-                    joinstyle: "round",
-                    outlineStroke: "white",
-                    outlineWidth: 2
-                },
-                // .. and this is the hover style.
-                connectorHoverStyle = {
-                    strokeWidth: 3,
-                    stroke: "#216477",
-                    outlineWidth: 5,
-                    outlineStroke: "white"
-                },
-                endpointHoverStyle = {
-                    fill: "#216477",
-                    stroke: "#216477"
-                },
-                // the definition of source endpoints (the small blue ones)
-                sourceEndpoint = {
-                    endpoint: "Dot",
-                    paintStyle: {
-                        stroke: "#7AB02C",
-                        fill: "transparent",
-                        radius: 7,
-                        strokeWidth: 2
-                    },
-                    isSource: true,
-                    connector: [ "Flowchart", { stub: [40, 60], gap: 10, cornerRadius: 5, alwaysRespectStubs: true } ],
-                    connectorStyle: connectorPaintStyle,
-                    hoverPaintStyle: endpointHoverStyle,
-                    connectorHoverStyle: connectorHoverStyle,
-                    dragOptions: {},
-                    overlays: [
+        this.mountPlumb()
+    },
+    methods: {
+        determineIndent(index) {
+            let indents = ['left-1/4', 'left-1/2', 'left-3/4']
+            return indents[index]
+        },
+        determineRow(index) {
+            let indents = ['', 'top-1/4', 'top-1/2']
+            return indents[index]
+        },
+        mountPlumb() {
+            JSPlumb.ready(function() {
+                let instance = window.jsp = JSPlumb.getInstance({
+                    // default drag options
+                    DragOptions: { cursor: 'pointer', zIndex: 2000 },
+                    // the overlays to decorate each connection with.  note that the label overlay uses a function to generate the label text; in this
+                    // case it returns the 'labelText' member that we set on each connection in the 'init' method below.
+                    ConnectionOverlays: [
+                        [ "Arrow", {
+                            location: 1,
+                            visible:true,
+                            width:11,
+                            length:11,
+                            id:"ARROW",
+                            events:{
+                                click:function() { alert("you clicked on the arrow overlay")}
+                            }
+                        } ],
                         [ "Label", {
-                            location: [0.5, 1.5],
-                            label: "Drag",
-                            cssClass: "endpointSourceLabel",
-                            visible:false
-                        } ]
-                    ]
-                },
-                // the definition of target endpoints (will appear when the user drags a connection)
-                targetEndpoint = {
-                    endpoint: "Dot",
-                    paintStyle: { fill: "#7AB02C", radius: 7 },
-                    hoverPaintStyle: endpointHoverStyle,
-                    maxConnections: -1,
-                    dropOptions: { hoverClass: "hover", activeClass: "active" },
-                    isTarget: true,
+                            location: 0.1,
+                            id: "label",
+                            cssClass: "aLabel",
+                            events:{
+                                tap:function() { alert("hey"); }
+                            }
+                        }]
+                    ],
+                    Container: "canvas"
+                });
+                let basicType = {
+                    connector: "StateMachine",
+                    paintStyle: { stroke: "red", strokeWidth: 4 },
+                    hoverPaintStyle: { stroke: "blue" },
                     overlays: [
-                        [ "Label", { location: [0.5, -0.5], label: "Drop", cssClass: "endpointTargetLabel", visible:false } ]
+                        "Arrow"
                     ]
-                },
-                init = function (connection) {
-                    connection.getOverlay("label").setLabel(connection.sourceId.substring(15) + "-" + connection.targetId.substring(15));
+                };
+                instance.registerConnectionType("basic", basicType);
+                // this is the paint style for the connecting lines..
+                let connectorPaintStyle = {
+                        strokeWidth: 2,
+                        stroke: "#61B7CF",
+                        joinstyle: "round",
+                        outlineStroke: "white",
+                        outlineWidth: 2
+                    },
+                    // .. and this is the hover style.
+                    connectorHoverStyle = {
+                        strokeWidth: 3,
+                        stroke: "#216477",
+                        outlineWidth: 5,
+                        outlineStroke: "white"
+                    },
+                    endpointHoverStyle = {
+                        fill: "#216477",
+                        stroke: "#216477"
+                    },
+                    // the definition of source endpoints (the small blue ones)
+                    sourceEndpoint = {
+                        endpoint: "Dot",
+                        paintStyle: {
+                            stroke: "#7AB02C",
+                            fill: "transparent",
+                            radius: 7,
+                            strokeWidth: 2
+                        },
+                        isSource: true,
+                        connector: [ "Flowchart", { stub: [40, 60], gap: 10, cornerRadius: 5, alwaysRespectStubs: true } ],
+                        connectorStyle: connectorPaintStyle,
+                        hoverPaintStyle: endpointHoverStyle,
+                        connectorHoverStyle: connectorHoverStyle,
+                        dragOptions: {},
+                        overlays: [
+                            [ "Label", {
+                                location: [0.5, 1.5],
+                                label: "Drag",
+                                cssClass: "endpointSourceLabel",
+                                visible:false
+                            } ]
+                        ]
+                    },
+                    // the definition of target endpoints (will appear when the user drags a connection)
+                    targetEndpoint = {
+                        endpoint: "Dot",
+                        paintStyle: { fill: "#7AB02C", radius: 7 },
+                        hoverPaintStyle: endpointHoverStyle,
+                        maxConnections: -1,
+                        dropOptions: { hoverClass: "hover", activeClass: "active" },
+                        isTarget: true,
+                        overlays: [
+                            [ "Label", { location: [0.5, -0.5], label: "Drop", cssClass: "endpointTargetLabel", visible:false } ]
+                        ]
+                    },
+                    init = function (connection) {
+                        connection.getOverlay("label").setLabel(connection.sourceId.substring(15) + "-" + connection.targetId.substring(15));
+                    };
+
+                let _addEndpoints = function (toId, sourceAnchors, targetAnchors) {
+                    for (let i = 0; i < sourceAnchors.length; i++) {
+                        let sourceUUID = toId + sourceAnchors[i]; // creates the uuid for each connector endpoint
+                        // uses the second half of the ID as identifier for endpoints, then adds to instance
+                        instance.addEndpoint("flowchart" + toId, sourceEndpoint, {
+                            anchor: sourceAnchors[i], uuid: sourceUUID
+                        });
+                    }
+                    for (var j = 0; j < targetAnchors.length; j++) {
+                        var targetUUID = toId + targetAnchors[j];
+                        instance.addEndpoint("flowchart" + toId, targetEndpoint, { anchor: targetAnchors[j], uuid: targetUUID });
+                    }
                 };
 
-            let _addEndpoints = function (toId, sourceAnchors, targetAnchors) {
-                for (var i = 0; i < sourceAnchors.length; i++) {
-                    var sourceUUID = toId + sourceAnchors[i];
-                    instance.addEndpoint("flowchart" + toId, sourceEndpoint, {
-                        anchor: sourceAnchors[i], uuid: sourceUUID
+                // suspend drawing and initialise.
+                instance.batch(function () {
+
+                    // define where connections are made with and from our divs
+                    // this is where we define how things are drawn together. should be custom right angle for new rows,
+                    // and side by side for everything else.
+                    _addEndpoints("Window4", ["TopCenter", "BottomCenter"], ["LeftMiddle", "RightMiddle"]);
+                    _addEndpoints("Window5", ["TopCenter", "BottomCenter"], ["LeftMiddle", "RightMiddle"]);
+                    _addEndpoints("Window2", ["LeftMiddle", "BottomCenter"], ["TopCenter", "RightMiddle"]);
+                    _addEndpoints("Window3", ["RightMiddle", "BottomCenter"], ["LeftMiddle", "TopCenter"]);
+                    _addEndpoints("Window1", ["LeftMiddle", "RightMiddle"], ["TopCenter", "BottomCenter"]);
+
+                    // listen for new connections; initialise them the same way we initialise the connections at startup.
+                    instance.bind("connection", function (connInfo, originalEvent) {
+                        init(connInfo.connection);
                     });
-                }
-                for (var j = 0; j < targetAnchors.length; j++) {
-                    var targetUUID = toId + targetAnchors[j];
-                    instance.addEndpoint("flowchart" + toId, targetEndpoint, { anchor: targetAnchors[j], uuid: targetUUID });
-                }
-            };
 
-            // suspend drawing and initialise.
-            instance.batch(function () {
+                    // make all the window divs draggable
+                    instance.draggable(JSPlumb.getSelector(".flowchart-demo .window"), { grid: [20, 20] });
+                    // THIS DEMO ONLY USES getSelector FOR CONVENIENCE. Use your library's appropriate selector
+                    // method, or document.querySelectorAll:
+                    //JSPlumb.draggable(document.querySelectorAll(".window"), { grid: [20, 20] });
 
-                _addEndpoints("Window4", ["TopCenter", "BottomCenter"], ["LeftMiddle", "RightMiddle"]);
-                _addEndpoints("Window2", ["LeftMiddle", "BottomCenter"], ["TopCenter", "RightMiddle"]);
-                _addEndpoints("Window3", ["RightMiddle", "BottomCenter"], ["LeftMiddle", "TopCenter"]);
-                _addEndpoints("Window1", ["LeftMiddle", "RightMiddle"], ["TopCenter", "BottomCenter"]);
+                    // connect a few up
+                    instance.connect({uuids: ["Window2BottomCenter", "Window3TopCenter"]});
+                    instance.connect({uuids: ["Window2LeftMiddle", "Window4LeftMiddle"]});
+                    instance.connect({uuids: ["Window4TopCenter", "Window4RightMiddle"]});
+                    instance.connect({uuids: ["Window3RightMiddle", "Window2RightMiddle"]});
+                    instance.connect({uuids: ["Window4BottomCenter", "Window1TopCenter"]});
+                    instance.connect({uuids: ["Window3BottomCenter", "Window1BottomCenter"] });
+                    //
 
-                // listen for new connections; initialise them the same way we initialise the connections at startup.
-                instance.bind("connection", function (connInfo, originalEvent) {
-                    init(connInfo.connection);
+                    //
+                    // listen for clicks on connections, and offer to delete connections on click.
+                    //
+                    instance.bind("click", function (conn, originalEvent) {
+                        // if (confirm("Delete connection from " + conn.sourceId + " to " + conn.targetId + "?"))
+                        //   instance.detach(conn);
+                        conn.toggleType("basic");
+                    });
+
+                    instance.bind("connectionDrag", function (connection) {
+                        console.log("connection " + connection.id + " is being dragged. suspendedElement is ", connection.suspendedElement, " of type ", connection.suspendedElementType);
+                    });
+
+                    instance.bind("connectionDragStop", function (connection) {
+                        console.log("connection " + connection.id + " was dragged");
+                    });
+
+                    instance.bind("connectionMoved", function (params) {
+                        console.log("connection " + params.connection.id + " was moved");
+                    });
                 });
 
-                // make all the window divs draggable
-                instance.draggable(JSPlumb.getSelector(".flowchart-demo .window"), { grid: [20, 20] });
-                // THIS DEMO ONLY USES getSelector FOR CONVENIENCE. Use your library's appropriate selector
-                // method, or document.querySelectorAll:
-                //JSPlumb.draggable(document.querySelectorAll(".window"), { grid: [20, 20] });
-
-                // connect a few up
-                instance.connect({uuids: ["Window2BottomCenter", "Window3TopCenter"]});
-                instance.connect({uuids: ["Window2LeftMiddle", "Window4LeftMiddle"]});
-                instance.connect({uuids: ["Window4TopCenter", "Window4RightMiddle"]});
-                instance.connect({uuids: ["Window3RightMiddle", "Window2RightMiddle"]});
-                instance.connect({uuids: ["Window4BottomCenter", "Window1TopCenter"]});
-                instance.connect({uuids: ["Window3BottomCenter", "Window1BottomCenter"] });
-                //
-
-                //
-                // listen for clicks on connections, and offer to delete connections on click.
-                //
-                instance.bind("click", function (conn, originalEvent) {
-                    // if (confirm("Delete connection from " + conn.sourceId + " to " + conn.targetId + "?"))
-                    //   instance.detach(conn);
-                    conn.toggleType("basic");
-                });
-
-                instance.bind("connectionDrag", function (connection) {
-                    console.log("connection " + connection.id + " is being dragged. suspendedElement is ", connection.suspendedElement, " of type ", connection.suspendedElementType);
-                });
-
-                instance.bind("connectionDragStop", function (connection) {
-                    console.log("connection " + connection.id + " was dragged");
-                });
-
-                instance.bind("connectionMoved", function (params) {
-                    console.log("connection " + params.connection.id + " was moved");
-                });
-            });
-
-            JSPlumb.fire("jsPlumbDemoLoaded", instance);
-        })
+                JSPlumb.fire("jsPlumbDemoLoaded", instance);
+            })
+        },
     }
 }
 </script>
@@ -238,25 +269,25 @@ export default {
     border: 1px dotted red;
 }
 
-#flowchartWindow1 {
-    /*top: 5%;*/
-    left: 5%;
-}
+/*#flowchartWindow1 {*/
+/*    !*top: 5%;*!*/
+/*    left: 5%;*/
+/*}*/
 
-#flowchartWindow2 {
-    /*top: 10%;*/
-    left: 25%;
-}
+/*#flowchartWindow2 {*/
+/*    !*top: 10%;*!*/
+/*    left: 25%;*/
+/*}*/
 
-#flowchartWindow3 {
-    /*top: 27em;*/
-    left: 50%;
-}
+/*#flowchartWindow3 {*/
+/*    !*top: 27em;*!*/
+/*    left: 50%;*/
+/*}*/
 
-#flowchartWindow4 {
-    /*top: 23em;*/
-    left: 75%;
-}
+/*#flowchartWindow4 {*/
+/*    !*top: 23em;*!*/
+/*    left: 75%;*/
+/*}*/
 
 .flowchart-demo .jtk-connector {
     z-index: 4;
