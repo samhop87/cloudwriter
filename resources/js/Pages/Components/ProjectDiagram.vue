@@ -1,13 +1,12 @@
 <template>
 <div id="canvas" class="jtk-demo-canvas canvas-wide flowchart-demo jtk-surface jtk-surface-nopan relative">
-        <div v-for="(row, index) in project" class="h-16 p-10 absolute" :class="determineRow(index)">
-            {{
-                determineRow(index)
-            }}
+        <div v-for="(row, index) in project" class="h-16 p-10 absolute w-full" :class="determineRow(index)">
+            {{ determineRow(index) }}
             <div>row header {{ index }}</div>
             <div v-for="(item, index) in row"
                  class="window jtk-node"
                  :id="'flowchartWindow' + index"
+                 @click="openFolder"
                  :class="determineIndent(index)">
                 {{ item[4] }}
             </div>
@@ -26,21 +25,35 @@ export default {
     name: 'JsPlumb',
     data () {
         return {
+            rowCount: 0, // used to determine indents
+            itemCount: 0
         }
     },
     mounted () {
         this.mountPlumb()
     },
     methods: {
+        openFolder() {
+            alert('hola')
+        },
         determineIndent(index) {
             let indents = ['left-1/4', 'left-1/2', 'left-3/4']
-            return indents[index]
+            let clone = indents[this.itemCount]
+            this.itemCount++
+
+            return clone
         },
         determineRow(index) {
             let indents = ['', 'top-1/4', 'top-1/2']
+            this.rowCount++
+            if (this.rowCount != 0) {
+                this.itemCount = 0
+            }
+
             return indents[index]
         },
         mountPlumb() {
+            var that = this
             JSPlumb.ready(function() {
                 let instance = window.jsp = JSPlumb.getInstance({
                     // default drag options
@@ -154,14 +167,24 @@ export default {
                 // suspend drawing and initialise.
                 instance.batch(function () {
 
+                    let connections = [
+                        "LeftMiddle", "RightMiddle",
+                    ]
                     // define where connections are made with and from our divs
                     // this is where we define how things are drawn together. should be custom right angle for new rows,
                     // and side by side for everything else.
-                    _addEndpoints("Window4", ["TopCenter", "BottomCenter"], ["LeftMiddle", "RightMiddle"]);
-                    _addEndpoints("Window5", ["TopCenter", "BottomCenter"], ["LeftMiddle", "RightMiddle"]);
-                    _addEndpoints("Window2", ["LeftMiddle", "BottomCenter"], ["TopCenter", "RightMiddle"]);
-                    _addEndpoints("Window3", ["RightMiddle", "BottomCenter"], ["LeftMiddle", "TopCenter"]);
-                    _addEndpoints("Window1", ["LeftMiddle", "RightMiddle"], ["TopCenter", "BottomCenter"]);
+                    _addEndpoints("Window4", connections, connections);
+                    _addEndpoints("Window5", connections, connections);
+                    _addEndpoints("Window2", connections, connections);
+                    _addEndpoints("Window3", connections, connections);
+                    _addEndpoints("Window1", connections, connections);
+
+                    that.project.forEach(function (currentValue, index) {
+                        console.log(typeof currentValue)
+                        currentValue.forEach(function (item, index) {
+                            _addEndpoints("Window" + index, connections, connections);
+                        })
+                    })
 
                     // listen for new connections; initialise them the same way we initialise the connections at startup.
                     instance.bind("connection", function (connInfo, originalEvent) {
@@ -175,12 +198,12 @@ export default {
                     //JSPlumb.draggable(document.querySelectorAll(".window"), { grid: [20, 20] });
 
                     // connect a few up
-                    instance.connect({uuids: ["Window2BottomCenter", "Window3TopCenter"]});
-                    instance.connect({uuids: ["Window2LeftMiddle", "Window4LeftMiddle"]});
-                    instance.connect({uuids: ["Window4TopCenter", "Window4RightMiddle"]});
-                    instance.connect({uuids: ["Window3RightMiddle", "Window2RightMiddle"]});
-                    instance.connect({uuids: ["Window4BottomCenter", "Window1TopCenter"]});
-                    instance.connect({uuids: ["Window3BottomCenter", "Window1BottomCenter"] });
+                    instance.connect({uuids: ["Window0RightMiddle", "Window1LeftMiddle"]});
+                    // instance.connect({uuids: ["Window2LeftMiddle", "Window4LeftMiddle"]});
+                    // instance.connect({uuids: ["Window4TopCenter", "Window4RightMiddle"]});
+                    // instance.connect({uuids: ["Window3RightMiddle", "Window2RightMiddle"]});
+                    // instance.connect({uuids: ["Window4BottomCenter", "Window1TopCenter"]});
+                    // instance.connect({uuids: ["Window3BottomCenter", "Window1BottomCenter"] });
                     //
 
                     //
