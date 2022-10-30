@@ -4,11 +4,12 @@
             {{ determineRow(index) }}
             <div>row header {{ index }}</div>
             <div v-for="(item, index) in row"
-                 class="window jtk-node"
+                 class="window jtk-node w-auto"
                  :id="'flowchartWindow' + index"
                  @click="openFolder"
+                 ref="item"
                  :class="determineIndent(index)">
-                {{ item[4] }}
+                {{ "flowchartWindow" + index }}
             </div>
         </div>
 </div>
@@ -158,8 +159,8 @@ export default {
                             anchor: sourceAnchors[i], uuid: sourceUUID
                         });
                     }
-                    for (var j = 0; j < targetAnchors.length; j++) {
-                        var targetUUID = toId + targetAnchors[j];
+                    for (let j = 0; j < targetAnchors.length; j++) {
+                        let targetUUID = toId + targetAnchors[j];
                         instance.addEndpoint("flowchart" + toId, targetEndpoint, { anchor: targetAnchors[j], uuid: targetUUID });
                     }
                 };
@@ -167,22 +168,28 @@ export default {
                 // suspend drawing and initialise.
                 instance.batch(function () {
 
-                    let connections = [
-                        "LeftMiddle", "RightMiddle",
+                    // _addEndpoints("Window4", ["TopCenter", "BottomCenter"], ["LeftMiddle", "RightMiddle"]);
+                    // _addEndpoints("Window2", ["LeftMiddle", "BottomCenter"], ["TopCenter", "RightMiddle"]);
+                    // _addEndpoints("Window3", ["RightMiddle", "BottomCenter"], ["LeftMiddle", "TopCenter"]);
+                    // _addEndpoints("Window1", ["LeftMiddle", "RightMiddle"], ["TopCenter", "BottomCenter"]);
+
+
+
+                    let sourceAnchors = [
+                        "RightMiddle", "",
+                    ]
+
+                    let targetAnchors = [
+                        "LeftMiddle", "",
                     ]
                     // define where connections are made with and from our divs
                     // this is where we define how things are drawn together. should be custom right angle for new rows,
                     // and side by side for everything else.
-                    _addEndpoints("Window4", connections, connections);
-                    _addEndpoints("Window5", connections, connections);
-                    _addEndpoints("Window2", connections, connections);
-                    _addEndpoints("Window3", connections, connections);
-                    _addEndpoints("Window1", connections, connections);
 
                     that.project.forEach(function (currentValue, index) {
-                        console.log(typeof currentValue)
-                        currentValue.forEach(function (item, index) {
-                            _addEndpoints("Window" + index, connections, connections);
+
+                        Object.values(currentValue).forEach(function (item, index) {
+                            _addEndpoints("Window" + item[4], sourceAnchors, targetAnchors);
                         })
                     })
 
@@ -192,13 +199,15 @@ export default {
                     });
 
                     // make all the window divs draggable
-                    instance.draggable(JSPlumb.getSelector(".flowchart-demo .window"), { grid: [20, 20] });
+                    // instance.draggable(JSPlumb.getSelector(".flowchart-demo .window"), { grid: [20, 20] });
                     // THIS DEMO ONLY USES getSelector FOR CONVENIENCE. Use your library's appropriate selector
                     // method, or document.querySelectorAll:
-                    //JSPlumb.draggable(document.querySelectorAll(".window"), { grid: [20, 20] });
+                    // THIS IS THE DRAGGABLE
+                    // JSPlumb.draggable(document.querySelectorAll(".window"), { grid: [20, 20] });
 
                     // connect a few up
-                    instance.connect({uuids: ["Window0RightMiddle", "Window1LeftMiddle"]});
+                    // target is LeftMiddle for each, source is RightMiddle
+                    instance.connect({uuids: ["Window4RightMiddle", "Window5LeftMiddle"]});
                     // instance.connect({uuids: ["Window2LeftMiddle", "Window4LeftMiddle"]});
                     // instance.connect({uuids: ["Window4TopCenter", "Window4RightMiddle"]});
                     // instance.connect({uuids: ["Window3RightMiddle", "Window2RightMiddle"]});
