@@ -1,10 +1,9 @@
 <template>
 <div id="canvas" class="jtk-demo-canvas canvas-wide flowchart-demo jtk-surface jtk-surface-nopan relative">
-        <div v-for="(row, index) in project" class="h-16 p-10 absolute w-full" :class="determineRow(index)">
-            {{ determineRow(index) }}
-            <div>row header {{ index }}</div>
+        <div v-for="(row, index) in project" class="p-10 flex flex-row flew-wrap w-full" :class="determineRow(index)">
             <div v-for="(item, index) in row"
-                 class="window jtk-node w-auto"
+                 class="window jtk-node w-auto h-16 flex border-2 border-turquoise rounded justify-center items-center
+                  text-center absolute cursor-pointer bg-white text-black font-display p-1"
                  :id="'flowchartWindow' + index"
                  @click="openFolder"
                  ref="item"
@@ -54,6 +53,7 @@ export default {
             return indents[index]
         },
         mountPlumb() {
+            // Apparently have to do this, tiresomely
             var that = this
             JSPlumb.ready(function() {
                 let instance = window.jsp = JSPlumb.getInstance({
@@ -94,9 +94,9 @@ export default {
                 instance.registerConnectionType("basic", basicType);
                 // this is the paint style for the connecting lines..
                 let connectorPaintStyle = {
-                        strokeWidth: 2,
+                        strokeWidth: 10,
                         stroke: "#61B7CF",
-                        joinstyle: "round",
+                        // joinstyle: "round",
                         outlineStroke: "white",
                         outlineWidth: 2
                     },
@@ -185,13 +185,15 @@ export default {
                     // define where connections are made with and from our divs
                     // this is where we define how things are drawn together. should be custom right angle for new rows,
                     // and side by side for everything else.
-
-                    that.project.forEach(function (currentValue, index) {
+                    that.project.every(function (currentValue, index) {
 
                         Object.values(currentValue).forEach(function (item, index) {
                             _addEndpoints("Window" + item[4], sourceAnchors, targetAnchors);
                         })
+
                     })
+
+                    console.log('hits here also')
 
                     // listen for new connections; initialise them the same way we initialise the connections at startup.
                     instance.bind("connection", function (connInfo, originalEvent) {
@@ -207,7 +209,13 @@ export default {
 
                     // connect a few up
                     // target is LeftMiddle for each, source is RightMiddle
-                    instance.connect({uuids: ["Window4RightMiddle", "Window5LeftMiddle"]});
+                    // instance.connect({uuids: ["Window4RightMiddle", "Window5LeftMiddle"]});
+                    that.$refs.item.forEach(function (item, index) {
+                        if (that.$refs.item[index+1]) {
+                            instance.connect({source:that.$refs.item[index], target:that.$refs.item[index+1]})
+                        }
+                    })
+
                     // instance.connect({uuids: ["Window2LeftMiddle", "Window4LeftMiddle"]});
                     // instance.connect({uuids: ["Window4TopCenter", "Window4RightMiddle"]});
                     // instance.connect({uuids: ["Window3RightMiddle", "Window2RightMiddle"]});
@@ -245,40 +253,14 @@ export default {
 </script>
 
 <style>
-.item{
-    height:50px;
-    width:50px;
-    background-color: red;
-    display: inline-block;
-}
-.demo {
-    /* for IE10+ touch devices */
-    touch-action:none;
-}
-
 .flowchart-demo .window {
-    border: 1px solid #346789;
     box-shadow: 2px 2px 19px #aaa;
     -o-box-shadow: 2px 2px 19px #aaa;
     -webkit-box-shadow: 2px 2px 19px #aaa;
     -moz-box-shadow: 2px 2px 19px #aaa;
     -moz-border-radius: 0.5em;
-    border-radius: 0.5em;
     opacity: 0.8;
-    width: 80px;
-    height: 80px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    text-align: center;
     z-index: 20;
-    position: absolute;
-    background-color: #eeeeef;
-    color: black;
-    font-family: helvetica, sans-serif;
-    padding: 0.5em;
-    font-size: 0.9em;
     -webkit-transition: -webkit-box-shadow 0.15s ease-in;
     -moz-transition: -moz-box-shadow 0.15s ease-in;
     -o-transition: -o-box-shadow 0.15s ease-in;
@@ -300,26 +282,6 @@ export default {
 .flowchart-demo .hover {
     border: 1px dotted red;
 }
-
-/*#flowchartWindow1 {*/
-/*    !*top: 5%;*!*/
-/*    left: 5%;*/
-/*}*/
-
-/*#flowchartWindow2 {*/
-/*    !*top: 10%;*!*/
-/*    left: 25%;*/
-/*}*/
-
-/*#flowchartWindow3 {*/
-/*    !*top: 27em;*!*/
-/*    left: 50%;*/
-/*}*/
-
-/*#flowchartWindow4 {*/
-/*    !*top: 23em;*!*/
-/*    left: 75%;*/
-/*}*/
 
 .flowchart-demo .jtk-connector {
     z-index: 4;
@@ -366,15 +328,15 @@ path, .jtk-endpoint {
 /* --- page structure --------------------------------------------------------------------------------- */
 /* ---------------------------------------------------------------------------------------------------- */
 
-body {
-    background-color: #FFF;
-    color: #434343;
-    font-family: "Lato", sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    height: 100%;
-    padding: 0;
-}
+/*body {*/
+/*    background-color: #FFF;*/
+/*    color: #434343;*/
+/*    font-family: "Lato", sans-serif;*/
+/*    font-size: 14px;*/
+/*    font-weight: 400;*/
+/*    height: 100%;*/
+/*    padding: 0;*/
+/*}*/
 
 .jtk-bootstrap {
     min-height:100vh;
@@ -420,10 +382,10 @@ body {
 
 .jtk-demo-canvas {
     height:750px;
-    max-height:700px;
+    /*max-height:700px;*/
     border:1px solid #CCC;
     background-color:white;
-    display: flex;
+    /*display: flex;*/
     flex-grow:1;
 }
 
@@ -470,86 +432,6 @@ body {
 
 li {
     list-style-type: none;
-}
-
-/* ------------------------ node palette -------------------- */
-
-.sidebar {
-    margin:0;
-    padding:10px 0;
-    background-color: white;
-    display:flex;
-    flex-direction:column;
-    border: 1px solid #CCC;
-    align-items: center;
-}
-
-.sidebar-item {
-    background-color: #CCC;
-    border-radius: 11px;
-    color: #585858;
-    cursor: move;
-    padding: 8px;
-    width: 128px;
-    text-align: center;
-    margin: 10px;
-    outline:none;
-}
-
-button.sidebar-item {
-    cursor:pointer;
-    width:150px;
-}
-
-.sidebar select {
-    height:35px;
-    width:150px;
-    outline:none;
-}
-
-.sidebar-item.katavorio-clone-drag {
-    margin:0;
-    border:1px solid white;
-}
-
-.sidebar-item:hover, .sidebar-item.katavorio-clone-drag {
-    background-color: #5184a0;
-    color:white;
-}
-
-/*
-.sidebar button {
-    background-color: #30686d;
-    outline: none;
-    border: none;
-    margin-left: 25px;
-    padding: 7px;
-    color: white;
-    cursor:pointer;
-}*/
-
-.sidebar i {
-    float:left;
-}
-
-@media (max-width: 600px) {
-    .sidebar {
-        float:none;
-        height: 55px;
-        width: 100%;
-        padding-top:0;
-    }
-
-    .sidebar ul li {
-        display:inline-block;
-        margin-top: 7px;
-        width:67px;
-    }
-    .jtk-demo-canvas {
-        margin-left: 0;
-        margin-top:10px;
-        height:364px;
-    }
 }
 
 /* ---------------------------------------------------------------------------------------------------- */
@@ -626,20 +508,6 @@ path {
 }
 
 /* header styles */
-
-.demo-links {
-    position: fixed;
-    right: 0;
-    top: 57px;
-    font-size: 11px;
-    background-color: white;
-    opacity: 0.8;
-    padding-right: 10px;
-    padding-left: 5px;
-    text-transform: uppercase;
-    z-index:100001;
-}
-
 .demo-links div {
     display:inline;
     margin-right:7px;
@@ -651,20 +519,11 @@ path {
 }
 
 .jtk-node {
-    background-color: #5184a0;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 12px;
-    position: absolute;
     z-index: 11;
     overflow: hidden;
-    min-width:80px;
-    min-height:30px;
-    width: auto;
 }
 
 .jtk-node .name {
-
     color: white;
     cursor: move;
     font-size: 13px;
@@ -675,7 +534,6 @@ path {
 
 .jtk-node .name span {
     cursor:pointer;
-
 }
 
 [undo], [redo] { background-color:darkgray !important; }
