@@ -33,13 +33,13 @@ class ProjectController extends Controller
 
     public function create(ProjectRequest $request): DriveFile
     {
-        return $this->googleDriveApiService->createFolder($request->name);
+        return $this->googleDriveApiService->createFolder(name: $request->name);
     }
 
     public function show(): Redirector|Application|RedirectResponse
     {
         // TODO: the session needs checking; is this first time or a refresh?
-        $this->projectService->refreshProject(request()->project_id);
+        $this->projectService->refreshProject(project_id: request()->project_id);
 
         return redirect(route('project.edit'));
     }

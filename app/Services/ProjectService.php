@@ -41,15 +41,11 @@ class ProjectService implements ProjectServiceInterface
         $project->push([
             'id' => $retrievedProject->project_id,
             'name' => $retrievedProject->project_name,
-            'project' => $this->googleApiDriveService->retrieveProject($retrievedProject->project_id),
+            'project' => $this->googleApiDriveService->retrieveProject(folder_id: $retrievedProject->project_id),
         ]);
 
-        $ordered = $project->first()['project']->sortBy('order');
+        $ordered = $project->first()['project']->sortBy('order')->values();
 
-        $chunked = $ordered->map(function ($item) {
-            return $item = $item->values();
-        })->chunk(3);
-
-        return session(['current_project' => $chunked]);
+        return session(['current_project' => $ordered]);
     }
 }

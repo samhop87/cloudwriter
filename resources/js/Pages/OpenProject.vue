@@ -19,42 +19,14 @@ defineProps({
                 {{ project.name }}
             </h2>
         </template>
-
-<!--        <div class="p-12">-->
-<!--            <div class="bg-white">-->
-<!--                <div v-if="project">-->
-<!--                    <project-tree :id="project.id"-->
-<!--                                  :title="project.name"-->
-<!--                                  :folder="project.project"-->
-<!--                                  :depth="0"-->
-<!--                                  :type="'project'">-->
-<!--                    </project-tree>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-
-<!--        <div class="p-12">-->
-<!--            <div class="bg-white">-->
-<!--                <div v-if="project">-->
-<!--                    <project-path :id="project.id"-->
-<!--                                  :title="project.name"-->
-<!--                                  :folder="project.project"-->
-<!--                                  :depth="0"-->
-<!--                                  :type="'project'">-->
-<!--                    </project-path>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
         <div class="p-12">
-            test
             <div class="bg-white">
                 <div v-if="project">
                     <project-diagram :id="project.id"
-                                  :title="project.name"
-                                  :folder="project.project"
-                                  :depth="0"
+                                     :title="project.name"
+                                     :folder="project.project"
                                      :project="project"
-                                  :type="'project'">
+                                     :type="'project'">
                     </project-diagram>
                 </div>
             </div>
