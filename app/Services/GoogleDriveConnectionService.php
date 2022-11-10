@@ -109,19 +109,16 @@ class GoogleDriveConnectionService implements DriveConnectionInterface
      */
     public function refreshToken(User $user)
     {
-        // TODO: this method doesn't work, possibly because not accepted by Google yet
+        // TODO: this method will not work until app is set to 'production' on google cloud console.
+        // TODO: until then, this method will not refresh token and error will be thrown.
         $client = $this->setUp();
-
-        // Refresh the token if it's expired.
-        if ($user->drive_token && isset(json_decode($user->drive_token)->error)) {
-            exit('Google authorisation invalid, you need to reauthorise.');
-        }
 
         $client->setAccessToken($user->drive_token);
         if ($client->isAccessTokenExpired()) {
             $accessToken = $client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
-            $user->drive_token = json_encode($accessToken);
-            $user->saveQuietly();
+            $user->update([
+               'drive_token' => json_encode($accessToken)
+            ]);
         }
 
         return $user->drive_token;
