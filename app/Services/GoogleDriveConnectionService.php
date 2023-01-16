@@ -20,7 +20,7 @@ class GoogleDriveConnectionService implements DriveConnectionInterface
     public function setUp($redirect_uri = null): Google_Client
     {
         // Initialise the client.
-        $client = new Google_Client();
+        $client = app(Google_Client::class);
         // Set the application name, this is included in the User-Agent HTTP header.
         $client->setApplicationName('Google integration');
         // Set the authentication credentials we downloaded from Google.
@@ -89,10 +89,6 @@ class GoogleDriveConnectionService implements DriveConnectionInterface
      */
     public function generateBearerToken($code): bool|array|string
     {
-        if (app()->environment('testing')) {
-            return fakeGoogleConnection();
-        }
-
         $client = $this->setUp();
 
         // Make the token request

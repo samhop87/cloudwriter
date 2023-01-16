@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\User\UserDashboardColourOptionController;
 use Illuminate\Support\Facades\Route;
 
 /*

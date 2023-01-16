@@ -13,7 +13,7 @@
 
 use Illuminate\Support\Facades\Http;
 
-uses(Tests\TestCase::class);
+uses(\Tests\OverallTestCase::class);
 
 /*
 |--------------------------------------------------------------------------

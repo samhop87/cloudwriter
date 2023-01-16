@@ -19,5 +19,5 @@ require 'front/web.php';
 require __DIR__.'/auth.php';
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    require_once 'user/web.php';
+    require 'user/web.php';
 });

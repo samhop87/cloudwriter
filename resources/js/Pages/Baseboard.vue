@@ -16,8 +16,8 @@ defineProps({
             </h2>
         </template>
 
-        <div class="p-12">
-            <div class="bg-white">
+        <div>
+            <div class="">
                 This is the user baseboard, welcoming them to the app.
                 - It contains the auth journey. Pretty useless without it.
             </div>

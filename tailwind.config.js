@@ -29,6 +29,9 @@ module.exports = {
                 'darkpurple': '#6E0DD0',
                 'neonblue': '#0062FF'
             },
+            height: {
+                "01": "5px",
+            },
             width: {
                 "w-50-rem": "50rem",
             },
