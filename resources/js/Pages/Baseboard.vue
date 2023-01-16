@@ -1,6 +1,7 @@
 <script setup>
 import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue';
 import { Head } from '@inertiajs/inertia-vue3';
+import UserProjects from "@/Pages/Components/UserProjects.vue";
 defineProps({
     projects: Object,
 })
@@ -16,29 +17,56 @@ defineProps({
             </h2>
         </template>
 
-        <div>
-            <div class="">
-                This is the user baseboard, welcoming them to the app.
-                - It contains the auth journey. Pretty useless without it.
+        <div class="bg-yellow-200"
+             v-if="!$page.props.auth.user.drive_token">
+            <div class="mx-auto max-w-7xl py-12 px-6 lg:flex lg:items-center lg:justify-between lg:py-16 lg:px-8">
+                <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                    <span class="block">Ready to dive in?</span>
+                    <span class="block text-cleomagenta">Authorise the app with Google Drive</span>
+                </h2>
+                <div class="mt-8 flex lg:mt-0 lg:flex-shrink-0">
+                    <div class="inline-flex rounded-md shadow">
+                        <a :href="route('baseboard.admin.generate-auth')"
+                           v-if="!$page.props.auth.user.drive_token"
+                           class="inline-flex items-center justify-center rounded-md border border-transparent
+                           bg-cleomagenta px-5 py-3 text-base font-medium text-white hover:bg-red-700">
+                            Authorise App
+                        </a>
+                    </div>
+                </div>
             </div>
-            <a :href="route('baseboard.admin.generate-auth')"
-               class="p-6 bg-turquoise flex m-2"
-               v-if="!$page.props.auth.user.drive_token">
-                Authorise Drive, Redirects to auth page
-            </a>
+        </div>
 
-            <a v-for="project in projects.data"
-               :href="route('project.show') + '?project_id=' + project.project_id"
-               class="p-6 bg-blue-500 flex m-2"
-               v-if="$page.props.auth.user.drive_token">
-                Retrieve project: {{ project.project_name }}
-            </a>
+        <div class="p-6">
+            <h2 class="text-3xl">Creation Wizard</h2>
+            <div class="w-full border border-cleomagenta my-3"></div>
+            <div>
+                <p>Here you can create new projects using Cloudwriter's AI-driven creation wizard.
+                    You can define every aspect of your story, from initial concept and scaffold the plot from
+                    beginning to end. Or you can just begin a blank slate - it's up to you.
+                </p>
+            </div>
+            <div class="mt-8 flex lg:mt-0 lg:flex-shrink-0">
+                <div class="inline-flex rounded-md shadow">
+                    <a href="/"
+                       v-if="$page.props.auth.user.drive_token"
+                       class="inline-flex items-center justify-center rounded-md border border-transparent
+                       bg-cleomagenta px-5 py-3 text-base font-medium text-white hover:bg-red-700">
+                        Get started
+                    </a>
+                </div>
+            </div>
+        </div>
 
-            <a
-               class="p-6 bg-turquoise flex m-2"
-               v-if="$page.props.auth.user.drive_token">
-                Create project // will lead to wizard
-            </a>
+        <div class="p-6">
+            <h2 class="text-3xl">My Projects</h2>
+            <div class="w-full border border-cleomagenta my-2"></div>
+        </div>
+        <div v-if="$page.props.auth.user.drive_token">
+            <UserProjects v-for="project in projects.data" :project="project" class="px-6"></UserProjects>
+        </div>
+        <div v-else>
+            <p>You haven't begun a project yet.</p>
         </div>
     </BreezeAuthenticatedLayout>
 </template>
