@@ -31,9 +31,10 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function create(ProjectRequest $request): DriveFile
+    public function create(ProjectRequest $request): Response
     {
-        return $this->googleDriveApiService->createFolder(name: $request->name);
+        return Inertia::render('CreationWizard');
+//        return $this->googleDriveApiService->createFolder(name: $request->name);
     }
 
     public function show(): Redirector|Application|RedirectResponse

@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\BaseboardController;
 use App\Http\Controllers\ProjectController;
 use Illuminate\Support\Facades\Route;
 
@@ -28,7 +27,7 @@ require 'web/baseboard.php';
 //});
 
 Route::name('project.')->prefix('project')->group(function () {
-    Route::post('/create', [ProjectController::class, 'create'])->name('create');
+    Route::get('/create', [ProjectController::class, 'create'])->name('create');
     Route::get('/', [ProjectController::class, 'index'])->name('edit');
     Route::get('/get', [ProjectController::class, 'show'])->name('show');
 

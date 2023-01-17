@@ -48,7 +48,7 @@ defineProps({
             </div>
             <div class="mt-8 flex lg:mt-0 lg:flex-shrink-0">
                 <div class="inline-flex rounded-md shadow">
-                    <a href="/"
+                    <a :href="route('project.create')"
                        v-if="$page.props.auth.user.drive_token"
                        class="inline-flex items-center justify-center rounded-md border border-transparent
                        bg-cleomagenta px-5 py-3 text-base font-medium text-white hover:bg-red-700">

@@ -51,7 +51,7 @@
           <path
               d="M2.695 14.763l-1.262 3.154a.5.5 0 00.65.65l3.155-1.262a4 4 0 001.343-.885L17.5 5.5a2.121 2.121 0 00-3-3L3.58 13.42a4 4 0 00-.885 1.343z"/>
         </svg>
-        Edit
+        Load Project
       </a>
     </span>
             <span class="sm:ml-3">
@@ -94,7 +94,7 @@
                     <!-- Active: "bg-gray-100", Not Active: "" -->
                     <a :href="route('project.show') + '?project_id=' + project.project_id" class="block px-4 py-2
                     text-sm text-gray-700" role="menuitem" tabindex="-1"
-                       id="mobile-menu-item-0">Edit</a>
+                       id="mobile-menu-item-0">Load</a>
                 </div>
             </div>
         </div>

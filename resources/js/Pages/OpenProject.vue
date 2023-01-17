@@ -1,8 +1,6 @@
 <script setup>
 import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue';
 import {Head} from '@inertiajs/inertia-vue3';
-import ProjectTree from "@/Pages/Components/ProjectTree.vue";
-import ProjectPath from "@/Pages/Components/ProjectPath.vue";
 import ProjectDiagram from "@/Pages/Components/ProjectDiagram.vue";
 
 defineProps({
@@ -19,6 +17,9 @@ defineProps({
                 {{ project.name }}
             </h2>
         </template>
+        <div v-if="!project" class="p-6">
+            You haven't loaded a project yet.
+        </div>
         <div class="p-12">
             <div class="bg-white">
                 <div v-if="project">
