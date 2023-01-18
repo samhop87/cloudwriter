@@ -29,6 +29,7 @@
     "dependencies": {
         "@headlessui/vue": "^1.7.7",
         "@heroicons/vue": "^2.0.13",
+        "@inertiajs/vue3": "^1.0.0",
         "jsplumb": "^2.15.6",
         "nprogress": "^0.2.0",
         "vue-final-modal": "^3.4.10",

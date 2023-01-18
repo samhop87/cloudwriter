@@ -21,13 +21,14 @@ require 'web/baseboard.php';
 //Route::get('/options', [UserDashboardController::class, 'options'])->name('admin.options');
 
 //Route::get('/active-file', [BaseboardController::class, 'activeFile'])->name('admin.active-file');
-//
+////
 //Route::name('wizard.')->prefix('wizard')->group(function () {
-//    Route::get('create-project', [WizardController::class, 'create'])->name('create');
+//    Route::get('stage-one', [ProjectController::class, 'stage-one'])->name('stage-one');
 //});
 
 Route::name('project.')->prefix('project')->group(function () {
     Route::get('/create', [ProjectController::class, 'create'])->name('create');
+    Route::post('/store', [ProjectController::class, 'store'])->name('store');
     Route::get('/', [ProjectController::class, 'index'])->name('edit');
     Route::get('/get', [ProjectController::class, 'show'])->name('show');
 

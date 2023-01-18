@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProjectRequest;
 use App\Interfaces\DriveApiInterface;
+use App\Models\User\Project;
 use App\Services\ProjectService;
 use Google\Service\Drive\DriveFile;
 use Illuminate\Contracts\Foundation\Application;
@@ -31,10 +32,25 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function create(ProjectRequest $request): Response
+    public function create(): Response
     {
-        return Inertia::render('CreationWizard');
+        return Inertia::render('Wizard/CreationWizard');
 //        return $this->googleDriveApiService->createFolder(name: $request->name);
+    }
+
+    public function store(ProjectRequest $request)
+    {
+        $project = $this->googleDriveApiService->createFolder(name: $request->project_name, order: 1);
+
+        Project::create([
+            'user_id' => auth()->id(),
+            'project_id' => $project->getId(),
+            'project_name' => $request->project_name,
+        ]);
+
+        return Inertia::render('Wizard/StageOne', [
+
+        ]);
     }
 
     public function show(): Redirector|Application|RedirectResponse

@@ -63,7 +63,7 @@ defineProps({
             <div class="w-full border border-cleomagenta my-2"></div>
         </div>
         <div v-if="$page.props.auth.user.drive_token">
-            <UserProjects v-for="project in projects.data" :project="project" class="px-6"></UserProjects>
+            <UserProjects v-for="project in projects.data" :project="project" class="px-6 py-3"></UserProjects>
         </div>
         <div v-else>
             <p>You haven't begun a project yet.</p>

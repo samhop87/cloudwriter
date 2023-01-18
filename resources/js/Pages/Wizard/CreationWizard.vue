@@ -1,9 +1,16 @@
 <script setup>
 import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue';
 import { Head } from '@inertiajs/inertia-vue3';
-// defineProps({
-//     // projects: Object,
-// })
+import { reactive } from 'vue'
+import { router } from '@inertiajs/vue3'
+
+const form = reactive({
+    project_name: null,
+})
+
+function submit() {
+    router.post(route('project.store'), form)
+}
 </script>
 
 <template>
@@ -25,18 +32,21 @@ import { Head } from '@inertiajs/inertia-vue3';
                 </p>
             </div>
             <div>
+                <form @submit.prevent="submit">
                 <div class="flex mt-6 rounded-md shadow-sm">
                     <input type="text"
-                           name="name"
-                           id="name"
+                           name="project_name"
+                           id="project_name"
+                           v-model="form.project_name"
                            class="flex w-full rounded-md border-gray-300 pl-3 pr-12 focus:border-indigo-500
                            focus:ring-indigo-500 sm:text-sm"
                            placeholder="My great project!"
                     >
                 </div>
-                <button class="my-6 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                <button class="my-6 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit" >
                     Submit
                 </button>
+                </form>
             </div>
         </div>
 
