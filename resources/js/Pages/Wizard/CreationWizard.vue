@@ -3,13 +3,14 @@ import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue';
 import { Head } from '@inertiajs/inertia-vue3';
 import { reactive } from 'vue'
 import { router } from '@inertiajs/vue3'
+import {Inertia} from "@inertiajs/inertia";
 
 const form = reactive({
     project_name: null,
 })
 
 function submit() {
-    router.post(route('project.store'), form)
+    Inertia.post(route('project.store'), form)
 }
 </script>
 
