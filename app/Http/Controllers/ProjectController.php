@@ -61,8 +61,12 @@ class ProjectController extends Controller
         return redirect(route('project.edit'));
     }
 
-    public function delete($id)
+    public function delete($projectId): Redirector|Application|RedirectResponse
     {
-        return $this->googleDriveApiService->deleteFile($id);
+        $this->googleDriveApiService->deleteFile(id: $projectId);
+
+        Project::where('project_id', $projectId)->delete();
+
+        return redirect()->route('baseboard.index')->with('message', 'Project Deleted Successfully');
     }
 }

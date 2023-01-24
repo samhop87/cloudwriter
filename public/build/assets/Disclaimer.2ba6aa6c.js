@@ -1,0 +1,1 @@
+import{_ as e}from"./_plugin-vue_export-helper.cdc0426e.js";const s={};function t(c,r){return"The basis for this application is that we can use tech to help us build stories"}const a=e(s,[["render",t]]);export{a as default};
