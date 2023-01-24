@@ -1,1 +1,8 @@
-<template>The basis for this application is that we can use tech to help us build stories</template>
+<template>
+    We can use tech to help us build stories. What we produce with these tools is valuable, and it is ours.
+    This is the reason we use cloud-based storage like Google Drive and OneDrive. If you have an email address from one
+    of these services, you usually have access to at least a few gigabytes of storage. By doing things this way,
+    the writer always retains access and control over their own work. If you choose to use Cloudwriter for a bit and
+    then decide you prefer other tools (or no tools, you bloody neanderthal), you've lost nothing. You don't have to
+    go through any kind of process to re-acquire your data or assert ownership - it's already all in your drive.
+</template>
