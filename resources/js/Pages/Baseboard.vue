@@ -37,36 +37,41 @@ defineProps({
             </div>
         </div>
 
-        <div class="p-6">
-            <h2 class="text-3xl">Creation Wizard</h2>
-            <div class="w-full border border-cleomagenta my-3"></div>
-            <div>
-                <p>Here you can create new projects using Cloudwriter's AI-driven creation wizard.
-                    You can define every aspect of your story, from initial concept and scaffold the plot from
-                    beginning to end. Or you can just begin a blank slate - it's up to you.
-                </p>
-            </div>
-            <div class="mt-8 flex lg:mt-0 lg:flex-shrink-0">
-                <div class="inline-flex rounded-md shadow">
-                    <a :href="route('project.create')"
-                       v-if="$page.props.auth.user.drive_token"
-                       class="inline-flex items-center justify-center rounded-md border border-transparent
-                       bg-cleomagenta px-5 py-3 text-base font-medium text-white hover:bg-red-700">
-                        Get started
-                    </a>
+        <div class="bg-yellow-200"
+             v-if="$page.props.auth.user.drive_token">
+            <div class="mx-auto max-w-7xl py-12 px-6 lg:flex lg:items-center lg:justify-between lg:py-16 lg:px-8">
+                <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                    <span class="block">Creation Wizard</span>
+                    <span class="block text-cleomagenta text-xl mt-4">
+                        Create new projects using Cloudwriter's AI-driven creation wizard.
+                    </span>
+                </h2>
+                <div class="mt-8 flex lg:mt-0 lg:flex-shrink-0">
+                    <div class="inline-flex rounded-md shadow">
+                        <a :href="route('project.create')"
+                           v-if="$page.props.auth.user.drive_token"
+                           class="inline-flex items-center justify-center rounded-md border border-transparent
+                           bg-cleomagenta px-5 py-3 text-base font-medium text-white hover:bg-red-700">
+                            Get started
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="p-6">
-            <h2 class="text-3xl">My Projects</h2>
-            <div class="w-full border border-cleomagenta my-2"></div>
-        </div>
-        <div v-if="$page.props.auth.user.drive_token">
-            <UserProjects v-for="project in projects.data" :project="project" class="px-6 py-3"></UserProjects>
-        </div>
-        <div v-else>
-            <p>You haven't begun a project yet.</p>
+        <div class="bg-yellow-200"
+             v-if="$page.props.auth.user.drive_token">
+            <div class="mx-auto max-w-7xl py-12 px-6 lg:flex lg:items-center lg:justify-between lg:py-16 lg:px-8">
+                <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                    <span class="block">My Projects</span>
+                </h2>
+            </div>
+            <div v-if="$page.props.auth.user.drive_token">
+                <UserProjects v-for="project in projects.data" :project="project" class="px-6 py-3"></UserProjects>
+            </div>
+            <div v-else>
+                <p>You haven't begun a project yet.</p>
+            </div>
         </div>
     </BreezeAuthenticatedLayout>
 </template>

@@ -12,9 +12,11 @@ abstract class TestCase extends BaseTestCase
 
     public static $user;
 
-    public function createUser()
+    public function createUser(bool $authorised = false)
     {
-        self::$user = User::factory()->createQuietly();
+        self::$user = $authorised
+            ? User::factory()->authorisationCompleted()->createQuietly()
+            : User::factory()->createQuietly();
 
         $this->actingAs(self::$user);
 

@@ -27,12 +27,7 @@ require 'web/baseboard.php';
 //});
 
 Route::name('project.')->prefix('project')->group(function () {
-    Route::get('/create', [ProjectController::class, 'create'])->name('create');
-    Route::post('/store', [ProjectController::class, 'store'])->name('store');
-    Route::get('/', [ProjectController::class, 'index'])->name('edit');
-    Route::get('/get', [ProjectController::class, 'show'])->name('show');
-    Route::delete('/delete/{project:project_id}', [ProjectController::class, 'delete'])->name('delete');
-
+    require 'web/projects.php';
     require 'web/folders.php';
     require 'web/files.php';
 });

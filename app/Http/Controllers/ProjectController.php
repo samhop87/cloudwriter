@@ -42,6 +42,8 @@ class ProjectController extends Controller
     {
         $project = $this->googleDriveApiService->createFolder(name: $request->project_name, order: 1);
 
+        dd('hitssssssss');
+
         Project::create([
             'user_id' => auth()->id(),
             'project_id' => $project->getId(),

@@ -39,4 +39,18 @@ class UserFactory extends Factory
             ];
         });
     }
+
+    public function authorisationCompleted()
+    {
+        return $this->state([
+            'drive_token' => json_encode([
+                'scope' => $this->faker->url(),
+                'created' => $this->faker->unixTime(now()),
+                'expires_in' => $this->faker->numberBetween(1000, 9999),
+                'token_type' => 'Bearer',
+                'access_token' => $this->faker->uuid(),
+                'refresh_token' => $this->faker->uuid(),
+            ])
+        ]);
+    }
 }

@@ -39,8 +39,8 @@
                 </div>
             </div>
         </div>
-        <div class="mt-5 flex lg:mt-0 lg:ml-4">
-    <span class="hidden sm:block">
+        <div class="mt-5 flex justify-around md:justify-start lg:mt-0 lg:ml-4">
+    <span class="sm:ml-3">
       <a type="button" :href="route('project.show') + '?project_id=' + project.project_id"
          class="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium
                text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500
@@ -55,21 +55,6 @@
       </a>
     </span>
             <span class="sm:ml-3">
-      <button type="button"
-              class="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm
-               font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2
-               focus:ring-indigo-500 focus:ring-offset-2">
-        <!-- Heroicon name: mini/check -->
-        <svg class="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-             aria-hidden="true">
-          <path fill-rule="evenodd"
-                d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-                clip-rule="evenodd"/>
-        </svg>
-        Publish (coming soon)
-      </button>
-    </span>
-            <span class="sm:ml-3">
       <button type="button" @click=destroy(project.project_id)
          class="inline-flex items-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-sm
                font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2
@@ -80,7 +65,6 @@
                 <path stroke-linecap="round" stroke-linejoin="round"
                       d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/>
             </svg>
-        Delete Project
       </button>
     </span>
         </div>
