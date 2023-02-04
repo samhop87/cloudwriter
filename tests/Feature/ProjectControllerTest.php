@@ -4,6 +4,9 @@ namespace Tests\Feature;
 
 use Google\Auth\OAuth2;
 use Google\Client;
+use Google\Http\REST;
+use Google\Service\Drive\Resource\Files;
+use Google\Service\Resource;
 use Google_Service_Drive;
 use GuzzleHttp\Psr7\Query;
 use GuzzleHttp\Psr7\Request;
@@ -46,8 +49,36 @@ it('can create a new project', function () {
             ));
     });
 
+    $this->mock(Files::class, function (MockInterface $mock) {
+        $mock->shouldReceive('create')->once();
+    });
+
+    $this->mock(Resource::class, function (MockInterface $mock) {
+        $mock->shouldReceive('call')->once();
+    });
+
+    $this->mock(REST::class, function (MockInterface $mock) {
+        $mock->shouldReceive('execute')->once();
+    });
+
     $this->mock(Client::class, function (MockInterface $mock) {
-        $mock->shouldReceive('setApplicationName', 'setAuthConfig', 'setAccessType', 'setIncludeGrantedScopes', 'setApprovalPrompt', 'getRefreshToken')
+        $mock->shouldReceive(
+            'setApplicationName',
+            'setAuthConfig',
+            'setAccessType',
+            'setIncludeGrantedScopes',
+            'setApprovalPrompt',
+            'getRefreshToken',
+        )->shouldReceive('shouldDefer')->once()->andReturn(false)
+            ->shouldReceive('execute')
+            ->once()
+//            ->andReturn(REST::execute(
+//                $http,
+//                $request,
+//                $expectedClass,
+//                $this->config['retry'],
+//                $this->config['retry_map']
+//            ))
             ->shouldReceive('addScope')
             ->with(Google_Service_Drive::DRIVE)
             ->once()
