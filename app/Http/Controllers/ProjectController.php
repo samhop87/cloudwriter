@@ -42,8 +42,6 @@ class ProjectController extends Controller
     {
         $project = $this->googleDriveApiService->createFolder(name: $request->project_name, order: 1);
 
-        dd('hitssssssss');
-
         Project::create([
             'user_id' => auth()->id(),
             'project_id' => $project->getId(),
@@ -65,6 +63,7 @@ class ProjectController extends Controller
 
     public function delete($projectId): Redirector|Application|RedirectResponse
     {
+        // TODO: add a policy to make sure you can only delete your own projects
         $this->googleDriveApiService->deleteFile(id: $projectId);
 
         Project::where('project_id', $projectId)->delete();
