@@ -6,7 +6,6 @@ use App\Http\Requests\ProjectRequest;
 use App\Interfaces\DriveApiInterface;
 use App\Models\User\Project;
 use App\Services\ProjectService;
-use Google\Service\Drive\DriveFile;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
@@ -63,7 +62,8 @@ class ProjectController extends Controller
 
     public function delete($projectId): Redirector|Application|RedirectResponse
     {
-        // TODO: add a policy to make sure you can only delete your own projects
+        $this->authorize('delete', Project::where('project_id', $projectId)->first());
+
         $this->googleDriveApiService->deleteFile(id: $projectId);
 
         Project::where('project_id', $projectId)->delete();

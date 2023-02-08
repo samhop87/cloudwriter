@@ -59,7 +59,11 @@ it('can delete a new project', function () {
 });
 
 it('can only delete a project if user is owner', function () {
-    expect(true)->toBe(true);
+    $project = Project::factory()->create();
+
+    $this->delete(route('project.delete', $project->project_id));
+
+    $this->assertDatabaseCount('projects', 1);
 });
 
 it('returns an instance of the loaded project from session', function () {
