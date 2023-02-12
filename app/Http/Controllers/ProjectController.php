@@ -48,7 +48,7 @@ class ProjectController extends Controller
         ]);
 
         return Inertia::render('Wizard/StageOne', [
-
+            'shapes' => config('cloudwriter.story_shapes')
         ]);
     }
 

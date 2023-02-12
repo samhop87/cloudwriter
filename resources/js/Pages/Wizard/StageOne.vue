@@ -3,6 +3,9 @@ import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue';
 import { Head } from '@inertiajs/inertia-vue3';
 import Themes from "@/Pages/Wizard/Components/Themes.vue";
 
+defineProps({
+    shapes: Object,
+})
 </script>
 
 <template>
@@ -96,8 +99,11 @@ import Themes from "@/Pages/Wizard/Components/Themes.vue";
         <div class="bg-yellow-200 p-6">
             <h2 class="text-3xl">Choose a story type</h2>
             <div class="w-full border border-cleomagenta my-3"></div>
-            <div>The vast majority of stories can be categorised as being a certain kind of story.  <a>link to disclaimer</a> What best fits your idea?</div>
-            <themes></themes>
+            <div>The vast majority of stories can be categorised as being a certain kind of story.
+                <a>link to disclaimer</a>
+                What best fits your idea? Hover over a story shape for more details
+            </div>
+            <themes :shapes="shapes"></themes>
         </div>
 
     </BreezeAuthenticatedLayout>
