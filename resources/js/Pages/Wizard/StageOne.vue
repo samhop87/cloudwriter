@@ -34,25 +34,19 @@ defineProps({
             <div class="mt-12">
                 What theme best fits your story?
             </div>
-            <div class="example">
-                <Multiselect
-                    v-model="value"
-                    mode="tags"
-                    :close-on-select="false"
-                    :searchable="true"
-                    :create-option="true"
-                    :options="[
-    { value: 'batman', label: 'Batman' },
-    { value: 'robin', label: 'Robin' },
-    { value: 'joker', label: 'Joker' },
-  ]"
-                />
-            </div>
-
             <div>
                 <VueMultiselect
-                    v-model="selected"
-                    :options="options">
+                    v-model="value"
+                    :options="options"
+                    :multiple="true"
+                    :close-on-select="false"
+                    :clear-on-select="false"
+                    :preserve-search="true"
+                    placeholder="Pick some"
+                    label="value"
+                    track-by="value"
+                    :preselect-first="true"
+                >
                 </VueMultiselect>
             </div>
         </div>
@@ -62,13 +56,11 @@ defineProps({
 
 <script>
 import frontScroll from "@/Mixins/frontScroll";
-import Multiselect from '@vueform/multiselect'
 import VueMultiselect from 'vue-multiselect'
 
 export default {
     mixins: [frontScroll],
     components: {
-        Multiselect,
         VueMultiselect
     },
     data() {
@@ -97,7 +89,7 @@ export default {
             this.proceedToNextEmptyStage();
         },
         proceedToNextEmptyStage() {
-            this.frontScroll(this.$refs.test);
+            this.frontScroll(this.$refs.theme);
         }
     }
 }
