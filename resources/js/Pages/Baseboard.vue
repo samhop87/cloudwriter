@@ -2,6 +2,7 @@
 import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue';
 import { Head } from '@inertiajs/inertia-vue3';
 import UserProjects from "@/Pages/Components/UserProjects.vue";
+import Accordion from "@/Pages/Components/Accordion.vue";
 defineProps({
     projects: Object,
 })
@@ -17,10 +18,10 @@ defineProps({
             </h2>
         </template>
 
-        <div class="bg-yellow-200"
+        <div
              v-if="!$page.props.auth.user.drive_token">
             <div class="mx-auto max-w-7xl py-12 px-6 lg:flex lg:items-center lg:justify-between lg:py-16 lg:px-8">
-                <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                <h2 class="text-3xl tracking-tight text-gray-900 sm:text-4xl">
                     <span class="block">Ready to dive in?</span>
                     <span class="block text-cleomagenta">Authorise the app with Google Drive</span>
                 </h2>
@@ -37,12 +38,12 @@ defineProps({
             </div>
         </div>
 
-        <div class="bg-yellow-200"
+        <div
              v-if="$page.props.auth.user.drive_token">
             <div class="mx-auto max-w-7xl py-12 px-6 lg:flex lg:items-center lg:justify-between lg:py-16 lg:px-8">
-                <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-                    <span class="block">Creation Wizard</span>
-                    <span class="block text-cleomagenta text-xl mt-4">
+                <h2 class="text-3xl tracking-tight text-gray-900 sm:text-4xl">
+                    <span class="flex">Creation Wizard</span>
+                    <span class="flex text-cleomagenta text-xl mt-4">
                         Create new projects using Cloudwriter's AI-driven creation wizard.
                     </span>
                 </h2>
@@ -59,19 +60,27 @@ defineProps({
             </div>
         </div>
 
-        <div class="bg-yellow-200"
+        <div
              v-if="$page.props.auth.user.drive_token">
-            <div class="mx-auto max-w-7xl py-12 px-6 lg:flex lg:items-center lg:justify-between lg:py-16 lg:px-8">
-                <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-                    <span class="block">My Projects</span>
-                </h2>
-            </div>
-            <div v-if="$page.props.auth.user.drive_token">
-                <UserProjects v-for="project in projects.data" :project="project" class="px-6 py-3"></UserProjects>
-            </div>
-            <div v-else>
-                <p>You haven't begun a project yet.</p>
-            </div>
+            <accordion>
+                <template v-slot:title>
+                    <div class="mx-auto max-w-7xl py-6 px-6 lg:flex lg:items-center lg:justify-between lg:py-12 lg:px-8">
+                        <h2 class="text-3xl tracking-tight text-gray-900 sm:text-4xl">
+                            <span class="flex">My Projects</span>
+                        </h2>
+                    </div>
+                </template>
+                <template v-slot:content>
+                    <div class="px-6 lg:px-8 mx-auto max-w-7xl">
+                        <div v-if="$page.props.auth.user.drive_token">
+                            <UserProjects v-for="project in projects.data" :project="project" class="py-3"></UserProjects>
+                        </div>
+                        <div v-else>
+                            <p>You haven't begun a project yet.</p>
+                        </div>
+                    </div>
+                </template>
+            </accordion>
         </div>
     </BreezeAuthenticatedLayout>
 </template>

@@ -1,7 +1,7 @@
 <template>
     <div class="lg:flex lg:items-center lg:justify-between">
         <div class="min-w-0 flex-1">
-            <h3 class="text-lg font-bold leading-7 text-gray-900 sm:truncate sm:text-xl sm:tracking-tight">
+            <h3 class="text-lg leading-7 text-gray-900 sm:truncate sm:text-xl sm:tracking-tight">
                 {{ project.project_name }}
             </h3>
             <div class="mt-1 flex flex-col sm:mt-0 sm:flex-row sm:flex-wrap sm:space-x-6">
@@ -45,26 +45,15 @@
          class="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium
                text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500
                 focus:ring-offset-2">
-        <!-- Heroicon name: mini/pencil -->
-        <svg class="-ml-1 mr-2 h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-             fill="currentColor" aria-hidden="true">
-          <path
-              d="M2.695 14.763l-1.262 3.154a.5.5 0 00.65.65l3.155-1.262a4 4 0 001.343-.885L17.5 5.5a2.121 2.121 0 00-3-3L3.58 13.42a4 4 0 00-.885 1.343z"/>
-        </svg>
         Load Project
       </a>
     </span>
             <span class="sm:ml-3">
       <button type="button" @click=destroy(project.project_id)
-         class="inline-flex items-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-sm
-               font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2
-               focus:ring-red-500 focus:ring-offset-2">
-        <!-- Heroicon name: mini/check -->
-         <svg class="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-              aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                      d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/>
-            </svg>
+              class="inline-flex items-center rounded-md border border-gray-300 bg-cleomagenta px-4 py-2 text-sm
+               text-white font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2
+               focus:ring-indigo-500 focus:ring-offset-2">
+         delete
       </button>
     </span>
         </div>
@@ -82,7 +71,7 @@ export default {
     },
     methods: {
         destroy(id) {
-            if (confirm("Are you sure you want to Delete")) {
+            if (confirm("This is a destructive operation! Are you sure you want to delete this project?")) {
                 Inertia.delete(route("project.delete", id));
             }
         }

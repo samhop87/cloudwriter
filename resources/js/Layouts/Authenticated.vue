@@ -19,7 +19,7 @@ const showingNavigationDropdown = ref(false);
 </script>
 
 <template>
-        <Disclosure as="nav" class="bg-yellow-400" v-slot="{ open }">
+        <Disclosure as="nav" class="bg-gray-200 font-new" v-slot="{ open }">
             <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
                 <div class="relative flex h-16 items-center justify-between">
                     <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
@@ -67,7 +67,7 @@ const showingNavigationDropdown = ref(false);
         </Disclosure>
 
     <div>
-        <div class="min-h-screen bg-yellow-200">
+        <div class="min-h-screen bg-gray-100 font-new">
             <nav class="bg-white border-b border-gray-100">
                 <!-- Responsive Navigation Menu -->
                 <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}" class="sm:hidden">

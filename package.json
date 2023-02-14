@@ -33,6 +33,7 @@
         "jsplumb": "^2.15.6",
         "nprogress": "^0.2.0",
         "vue-final-modal": "^3.4.10",
+        "vue-multiselect": "^3.0.0-beta.1",
         "vue3-grid-layout": "^1.0.0"
     }
 }

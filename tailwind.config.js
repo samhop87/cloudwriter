@@ -14,6 +14,7 @@ module.exports = {
             fontFamily: {
                 sans: ['Nunito', ...defaultTheme.fontFamily.sans],
                 display: ['MuseoModerno', ...defaultTheme.fontFamily.sans],
+                new: ['Questrial', ...defaultTheme.fontFamily.sans],
             },
             colors: {
                 'turquoise': 'rgb(79, 209, 197)',
@@ -32,16 +33,20 @@ module.exports = {
             height: {
                 "01": "5px",
             },
+            minHeight: {
+                'title': '110px',
+            },
             width: {
                 "w-50-rem": "50rem",
             },
             fontSize: {
+                "headline": "100px",
                 "display": "80px",
                 "mobile-display": "60px",
             },
             inset: {
                 '1/10': '10%'
-            }
+            },
         },
     },
 

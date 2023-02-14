@@ -2,9 +2,9 @@ export default {
     methods: {
         frontScroll: function (el) {
             if (el) {
-                this.$nextTick(() => {
-                    el.scrollIntoView({behavior: 'smooth'});
-                })
+                setTimeout(() => {
+                    el.scrollIntoView({ behavior: 'smooth' });
+                }, 0);
             }
         }
     }
