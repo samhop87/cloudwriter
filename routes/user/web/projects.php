@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 Route::get('/create', [ProjectController::class, 'create'])->name('create');
+Route::get('/store', [ProjectController::class, 'rejoin'])->name('store.page');
 Route::post('/store', [ProjectController::class, 'store'])->name('store');
 Route::get('/', [ProjectController::class, 'index'])->name('edit');
 Route::get('/get', [ProjectController::class, 'show'])->name('show');

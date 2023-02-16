@@ -62,9 +62,9 @@ defineProps({
 
         <div
              v-if="$page.props.auth.user.drive_token">
-            <accordion>
+            <accordion class="mx-auto max-w-7xl">
                 <template v-slot:title>
-                    <div class="mx-auto max-w-7xl py-6 px-6 lg:flex lg:items-center lg:justify-between lg:py-12 lg:px-8">
+                    <div class="mx-auto max-w-7xl py-8 px-6 lg:flex lg:items-center lg:justify-between lg:py-12 lg:px-8">
                         <h2 class="text-3xl tracking-tight text-gray-900 sm:text-4xl">
                             <span class="flex">My Projects</span>
                         </h2>

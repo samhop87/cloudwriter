@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProjectRequest;
+use App\Http\Resources\GenreResource;
 use App\Interfaces\DriveApiInterface;
+use App\Models\Genre;
 use App\Models\User\Project;
 use App\Services\ProjectService;
 use Illuminate\Contracts\Foundation\Application;
@@ -48,7 +50,16 @@ class ProjectController extends Controller
         ]);
 
         return Inertia::render('Wizard/StageOne', [
-            'shapes' => config('cloudwriter.story_shapes')
+            'shapes' => config('cloudwriter.story_shapes'),
+            'genres' => GenreResource::collection(Genre::whereNull('parent_id')->with('subGenres')->get()),
+        ]);
+    }
+
+    public function rejoin() // TODO: this can only exist while I work on the wizard
+    {
+        return Inertia::render('Wizard/StageOne', [
+            'shapes' => config('cloudwriter.story_shapes'),
+            'genres' => GenreResource::collection(Genre::whereNull('parent_id')->with('subGenres')->get()),
         ]);
     }
 
