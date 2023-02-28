@@ -27,15 +27,16 @@ InertiaProgress.init({
     color: '#CC00FF',
 
 // Whether to include the default NProgress styles.
-    includeCSS: true,
+    includeCSS: false,
     // Whether the NProgress spinner will be shown.
-    showSpinner: true,
+    showSpinner: false,
+
 })
 
 let timeout = null
 
 Inertia.on('start', () => {
-    timeout = setTimeout(() => NProgress.start(), 250)
+    timeout = setTimeout(() => NProgress.start(), 500)
 })
 
 Inertia.on('progress', (event) => {

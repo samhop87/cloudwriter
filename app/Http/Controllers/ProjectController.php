@@ -35,8 +35,10 @@ class ProjectController extends Controller
 
     public function create(): Response
     {
-        return Inertia::render('Wizard/CreationWizard');
-//        return $this->googleDriveApiService->createFolder(name: $request->name);
+        return Inertia::render('Wizard/CreationWizard', [
+            'shapes' => config('cloudwriter.story_shapes'),
+            'genres' => GenreResource::collection(Genre::whereNull('parent_id')->with('subGenres')->get()),
+        ]);
     }
 
     public function store(ProjectRequest $request)
@@ -49,17 +51,12 @@ class ProjectController extends Controller
             'project_name' => $request->project_name,
         ]);
 
-        return Inertia::render('Wizard/StageOne', [
-            'shapes' => config('cloudwriter.story_shapes'),
-            'genres' => GenreResource::collection(Genre::whereNull('parent_id')->with('subGenres')->get()),
-        ]);
-    }
+        // TODO: this will be where the call to ChatGPT will be made
+        // Depending on the options chosen, the story will be scaffolded and the user will be taken to the editor
 
-    public function rejoin() // TODO: this can only exist while I work on the wizard
-    {
+        // What do I return here?
         return Inertia::render('Wizard/StageOne', [
-            'shapes' => config('cloudwriter.story_shapes'),
-            'genres' => GenreResource::collection(Genre::whereNull('parent_id')->with('subGenres')->get()),
+
         ]);
     }
 
