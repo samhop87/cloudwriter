@@ -41,12 +41,12 @@
         </div>
         <div class="mt-5 flex lg:justify-around md:justify-start lg:mt-0 lg:ml-4">
     <span class="sm:ml-3">
-      <a type="button" :href="route('project.show') + '?project_id=' + project.project_id"
+      <Link type="button" :href="route('project.show') + '?project_id=' + project.project_id"
          class="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium
                text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500
-                focus:ring-offset-2">
+                focus:ring-offset-2 cursor-pointer">
         Load Project
-      </a>
+      </Link>
     </span>
             <span class="sm:ml-3 pl-4 lg:pl-0">
       <button type="button" @click=destroy(project.project_id)
@@ -62,8 +62,12 @@
 
 <script>
 import {Inertia} from "@inertiajs/inertia";
+import { Link } from '@inertiajs/vue3'
 
 export default {
+    components: {
+        Link
+    },
     props: {
         project: {
             required: true,

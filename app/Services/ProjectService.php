@@ -24,28 +24,35 @@ class ProjectService implements ProjectServiceInterface
         $this->googleApiDriveService = $googleDriveApiService;
     }
 
-    public function handleProject()
+    /**
+     * @param string $project_id
+     * @param bool $refresh
+     * @return mixed
+     */
+    public function handleProject(string $project_id, bool $refresh = false): mixed
     {
+        return $project_id === session('meta_data.project_id') && !$refresh
+            ? session('current_project')
+            : $this->refreshProject($project_id);
     }
 
     /**
-     * @param $project_id
+     * @param string $project_id
      * @return Application|SessionManager|Store|mixed
      */
-    public function refreshProject($project_id): mixed
+    public function refreshProject(string $project_id): mixed
     {
-        $retrievedProject = Project::where('project_id', $project_id)->first();
+        $project = Project::where('project_id', $project_id)->first();
 
-        $project = collect([]);
-
-        $project->push([
-            'id' => $retrievedProject->project_id,
-            'name' => $retrievedProject->project_name,
-            'project' => $this->googleApiDriveService->retrieveProject(folder_id: $retrievedProject->project_id),
+        return session([
+            'current_project' => $this->googleApiDriveService
+                ->retrieveProject(folder_id: $project->project_id)
+                ->sortBy('order')
+                ->values(),
+            'meta_data' => [
+                'project_id' => $project->project_id,
+                'project_name' => $project->project_name,
+            ]
         ]);
-
-        $ordered = $project->first()['project']->sortBy('order')->values();
-
-        return session(['current_project' => $ordered]);
     }
 }

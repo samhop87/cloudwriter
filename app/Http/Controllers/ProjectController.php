@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProjectRequest;
 use App\Http\Resources\GenreResource;
 use App\Interfaces\DriveApiInterface;
+use App\Interfaces\ProjectServiceInterface;
 use App\Models\Genre;
 use App\Models\User\Project;
 use App\Services\ProjectService;
@@ -18,9 +19,12 @@ class ProjectController extends Controller
 {
     private DriveApiInterface $googleDriveApiService;
 
-    private ProjectService $projectService;
+    private ProjectServiceInterface $projectService;
 
-    public function __construct(DriveApiInterface $googleDriveApiService, ProjectService $projectService)
+    public function __construct(
+        DriveApiInterface $googleDriveApiService,
+        ProjectServiceInterface $projectService
+    )
     {
         $this->googleDriveApiService = $googleDriveApiService;
         $this->projectService = $projectService;
@@ -62,8 +66,7 @@ class ProjectController extends Controller
 
     public function show(): Redirector|Application|RedirectResponse
     {
-        // TODO: the session needs checking; is this first time or a refresh?
-        $this->projectService->refreshProject(project_id: request()->project_id);
+        $this->projectService->handleProject(project_id: request()->project_id);
 
         return redirect(route('project.edit'));
     }

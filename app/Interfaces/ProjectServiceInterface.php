@@ -7,7 +7,7 @@ namespace App\Interfaces;
  */
 interface ProjectServiceInterface
 {
-    public function handleProject();
+    public function handleProject(string $project_id, bool $refresh = false);
 
-    public function refreshProject($project_id): mixed;
+    public function refreshProject(string $project_id): mixed;
 }
