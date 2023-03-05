@@ -2,7 +2,7 @@
 
 namespace App\Observers;
 
-use App\Interfaces\DriveConnectionInterface;
+use App\Jobs\CreateNewProjectFolders;
 use App\Jobs\CreateProjectOnGoogle;
 use App\Models\User\Project;
 
@@ -16,7 +16,7 @@ class ProjectObserver
      */
     public function created(Project $project)
     {
-        CreateProjectOnGoogle::dispatch($project);
+//        CreateProjectOnGoogle::dispatch($project);
     }
 
     /**
@@ -27,7 +27,11 @@ class ProjectObserver
      */
     public function updated(Project $project)
     {
-        //
+        dd('updated');
+        if ($project->isDirty('project_id')) {
+            dd('project_id changed');
+            CreateNewProjectFolders::dispatch($project);
+        }
     }
 
     /**

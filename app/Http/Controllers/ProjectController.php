@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProjectRequest;
 use App\Http\Resources\GenreResource;
+use App\Interfaces\ChatGPTServiceInterface;
 use App\Interfaces\DriveApiInterface;
 use App\Interfaces\ProjectServiceInterface;
 use App\Models\Genre;
@@ -18,16 +19,18 @@ use Inertia\Response;
 class ProjectController extends Controller
 {
     private DriveApiInterface $googleDriveApiService;
-
     private ProjectServiceInterface $projectService;
+    private ChatGPTServiceInterface $chatGPTService;
 
     public function __construct(
         DriveApiInterface $googleDriveApiService,
-        ProjectServiceInterface $projectService
+        ProjectServiceInterface $projectService,
+        ChatGPTServiceInterface $chatGPTService,
     )
     {
         $this->googleDriveApiService = $googleDriveApiService;
         $this->projectService = $projectService;
+        $this->chatGPTService = $chatGPTService;
     }
 
     public function index(): Response
@@ -47,16 +50,20 @@ class ProjectController extends Controller
 
     public function store(ProjectRequest $request)
     {
-        $project = $this->googleDriveApiService->createFolder(name: $request->project_name, order: 1);
-
-        Project::create([
+        $newProject = Project::create([
             'user_id' => auth()->id(),
-            'project_id' => $project->getId(),
             'project_name' => $request->project_name,
+            'project_id' => 'test',
         ]);
 
+        $project = $this->googleDriveApiService->createFolder(name: $request->project_name, order: 1);
+
+        $newProject->update([
+            'project_id' => $project->getId()
+        ]);
         // TODO: this will be where the call to ChatGPT will be made
         // Depending on the options chosen, the story will be scaffolded and the user will be taken to the editor
+//        $this->chatGPTService->nextSentence();
 
         // What do I return here?
         return Inertia::render('Wizard/StageOne', [

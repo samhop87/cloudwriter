@@ -124,8 +124,9 @@ class GoogleDriveApiService implements DriveApiInterface
     }
 
     /**
-     * @param  null  $folder_id
-     * @param  string  $name
+     * @param string $name
+     * @param null $folder_id
+     * @param null $order
      * @return DriveFile
      *
      * @throws Exception

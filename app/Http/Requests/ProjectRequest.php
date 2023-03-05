@@ -24,10 +24,10 @@ class ProjectRequest extends FormRequest
     public function rules()
     {
         return [
-            'project_name' => 'required|string',
-            'themeChoice' => 'required|string',
-            'shapeChoice' => 'required|string',
-            'pov.name' => 'required|string',
+//            'project_name' => 'required|string',
+//            'themeChoice' => 'required|string',
+//            'shapeChoice' => 'required|string',
+//            'pov.name' => 'required|string',
         ];
     }
 }

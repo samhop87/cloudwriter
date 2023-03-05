@@ -2,7 +2,6 @@
 
 namespace App\Jobs;
 
-use App\Interfaces\DriveApiInterface;
 use App\Interfaces\DriveConnectionInterface;
 use App\Models\User\Project;
 use Illuminate\Bus\Queueable;
@@ -11,7 +10,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class CreateProjectOnGoogle implements ShouldQueue
+class CreateNewProjectFolders implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -24,7 +23,7 @@ class CreateProjectOnGoogle implements ShouldQueue
      */
     public function __construct(Project $project)
     {
-        $this->project = $project;
+        //
     }
 
     /**
@@ -34,10 +33,8 @@ class CreateProjectOnGoogle implements ShouldQueue
      */
     public function handle()
     {
-        $project = app(DriveApiInterface::class)->createFolder(name: $this->project->project_name, order: 1);
-
-        $this->project->update([
-            'project_id' => $project->getId()
-        ]);
+        for($i = 2; $i <= 12; $i++) {
+            app(DriveConnectionInterface::class)->createFolder(name: 'Chapter ' . $i, folder_id: $this->project->project_id, order: $i);
+        }
     }
 }
