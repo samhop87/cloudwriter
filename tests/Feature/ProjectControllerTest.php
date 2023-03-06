@@ -3,10 +3,12 @@
 namespace Tests\Feature;
 
 use App\Interfaces\DriveApiInterface;
+use App\Jobs\CreateProjectOnGoogle;
 use App\Models\User\Project;
 use App\Services\GoogleDriveApiService;
 use Google\Service\Drive\DriveFile;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Str;
 use Mockery\MockInterface;
 use Tests\OverallTestCase;
@@ -64,6 +66,29 @@ it('can only delete a project if user is owner', function () {
     $this->delete(route('project.delete', $project->project_id));
 
     $this->assertDatabaseCount('projects', 1);
+});
+
+it('creates folders when project is created', function () {
+    Queue::fake();
+
+    $projectName = $this->faker->word();
+
+    $file = new DriveFile();
+    $file->setId(Str::random(20));
+
+    $driveMock = $this->mock(GoogleDriveApiService::class, function (MockInterface $mock) use ($file) {
+        $mock->shouldReceive('createFolder')
+            ->once()
+            ->andReturn($file);
+    });
+
+    $this->app->instance(DriveApiInterface::class, $driveMock);
+
+    $this->post(route('project.store'), ['project_name' => $projectName]);
+
+    $this->travel(1)->minutes();
+
+    Queue::assertPushed(CreateProjectOnGoogle::class);
 });
 
 it('returns an instance of the loaded project from session', function () {

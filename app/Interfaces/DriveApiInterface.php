@@ -18,7 +18,7 @@ interface DriveApiInterface
 
     public function recursiveMapFolders($folder_id, Collection $projectContainer = null): ?Collection;
 
-    public function createFolder(string $name, $folder_id = null, $order = null): DriveFile;
+    public function createFolder(string $name, $folder_id = null, $order = null, $user = null): DriveFile;
 
     public function createFile($folder_id = null, $title = null): DriveFile;
 

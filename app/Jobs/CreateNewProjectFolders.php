@@ -2,7 +2,8 @@
 
 namespace App\Jobs;
 
-use App\Interfaces\DriveConnectionInterface;
+use App\Interfaces\DriveApiInterface;
+use App\Models\User;
 use App\Models\User\Project;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -23,7 +24,7 @@ class CreateNewProjectFolders implements ShouldQueue
      */
     public function __construct(Project $project)
     {
-        //
+        $this->project = $project;
     }
 
     /**
@@ -33,8 +34,18 @@ class CreateNewProjectFolders implements ShouldQueue
      */
     public function handle()
     {
-        for($i = 2; $i <= 12; $i++) {
-            app(DriveConnectionInterface::class)->createFolder(name: 'Chapter ' . $i, folder_id: $this->project->project_id, order: $i);
+        for($i = 1; $i <= 12; $i++) {
+            app(DriveApiInterface::class)->createFolder(
+                name: 'Chapter ' . $i,
+                folder_id: $this->project->project_id,
+                order: $i,
+                user: User::find($this->project->user_id),
+            );
+
+            // todo:
+            // create a file for each chaper
+            // populate each file with a call from ChatGPT
+            // call the file: 'prompt'
         }
     }
 }
