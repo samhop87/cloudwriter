@@ -14,9 +14,9 @@ const form = reactive({
 })
 
 defineProps({
-    errors: Object,
     shapes: Object,
     genres: Object,
+    errors: Object,
 })
 
 function submit() {
@@ -35,7 +35,6 @@ function submit() {
         </template>
 
         <div class="bg-white p-6 flex flex-col">
-            {{ $page.props.errors }}
             <form @submit.prevent="submit" class="w-full p-6">
                 <div class="flex mt-6">
                     <input type="text"
@@ -45,6 +44,7 @@ function submit() {
                            class="flex w-full pl-3 pt-12 pb-2 pr-12 border-none focus:border-gray-100
                            focus:ring-gray-100 text-headline min-h-title font-new placeholder-gray-200"
                            placeholder="Give it a name"
+                           :class="errors.project_name ? 'placeholder-red-200' : 'placeholder-gray-200'"
                     >
                 </div>
                 <div class="w-full border border-black my-3"></div>
@@ -53,6 +53,9 @@ function submit() {
                     <div>
                         <p>
                             This first step: naming your new project. Don't worry, you can change this later.
+                        </p>
+                        <p class="text-cleomagenta">
+                            {{ errors.project_name }}
                         </p>
                     </div>
                 </div>
@@ -65,7 +68,12 @@ function submit() {
                         <a>link to disclaimer</a>
                         What best fits your idea? Hover over a story shape for more details
                     </div>
-                    <themes :shapes="shapes" @shape-selected="shapeChosen"></themes>
+                    <themes
+                        :shapes="shapes"
+                        @shape-selected="shapeChosen"
+                        v-model="form.shapeChoice"
+                    >
+                    </themes>
                 </div>
                 <div class="mt-8" ref="theme">
                     <h2 class="text-3xl">Choose a theme</h2>
@@ -92,6 +100,7 @@ function submit() {
                             <span slot="noResult">Oops! No elements found. Consider changing the search query.</span>
                         </VueMultiselect>
                     </div>
+                    <p class="text-cleomagenta">{{ errors.themeChoice }}</p>
                 </div>
                 <div class="mt-8" ref="pov">
                     <h2 class="text-3xl">Choose a POV</h2>
@@ -143,6 +152,7 @@ export default {
         return {
             shapeReady: false,
             value: [],
+            alter: null,
             povOptions: [
                 {name: 'First Person'},
                 {name: 'Second Person'},
@@ -158,7 +168,6 @@ export default {
     },
     computed: {
         genresList() {
-            console.log(this.genres.data)
             return this.genres && this.genres.data ? this.genres.data : 'nothing'
         }
     },
@@ -166,6 +175,7 @@ export default {
         shapeChosen(id) {
             this.shapeChoice = id;
             // router.remember(data, 'shapeChoice')
+
             this.proceedToNextEmptyStage();
         },
         themeChosen(id) {

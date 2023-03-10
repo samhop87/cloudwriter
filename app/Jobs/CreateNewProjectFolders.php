@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Interfaces\ChatGPTServiceInterface;
 use App\Interfaces\DriveApiInterface;
 use App\Models\User;
 use App\Models\User\Project;
@@ -32,20 +33,25 @@ class CreateNewProjectFolders implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle(DriveApiInterface $service, ChatGPTServiceInterface $chatGPTService)
     {
+        $files = collect([]);
+
+        $user = User::find($this->project->user_id);
+
         for($i = 1; $i <= 12; $i++) {
-            app(DriveApiInterface::class)->createFolder(
+            $folder = $service->createFolder(
                 name: 'Chapter ' . $i,
                 folder_id: $this->project->project_id,
                 order: $i,
-                user: User::find($this->project->user_id),
+                user: $user,
             );
 
-            // todo:
-            // create a file for each chaper
-            // populate each file with a call from ChatGPT
-            // call the file: 'prompt'
+            $file = $service->createFile(folder_id: $folder->getId(), title: "prompt for Chapter $i", user: $user);
+
+            $files->push($file->getId());
         }
+
+//        $chatGPTService->generatePrompts();
     }
 }

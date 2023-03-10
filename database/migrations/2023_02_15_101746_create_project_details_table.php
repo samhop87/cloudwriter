@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->integer('project_id')->nullable();
             $table->integer('genre_id')->nullable();
+            $table->integer('shape_id')->nullable();
             $table->timestamps();
         });
     }

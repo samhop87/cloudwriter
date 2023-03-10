@@ -7,6 +7,7 @@ use App\Http\Resources\GenreResource;
 use App\Interfaces\DriveApiInterface;
 use App\Interfaces\ProjectServiceInterface;
 use App\Models\Genre;
+use App\Models\ProjectDetail;
 use App\Models\User\Project;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
@@ -43,12 +44,18 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function store(ProjectRequest $request)
+    public function store(ProjectRequest $request): Response
     {
-        Project::create([
+        $project = Project::create([
             'user_id' => auth()->id(),
             'project_name' => $request->project_name,
-            'project_id' => 'test',
+        ]);
+
+        ProjectDetail::create([
+            'project_id' => $project->project_id,
+            'genre_id' => $request->themeChoice[0]['id'], // for testing purposes, but this will need to change
+            'shape_id' => $request->shapeChoice,
+            'pov' => $request->pov['name'],
         ]);
 
         // What do I return here?

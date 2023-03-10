@@ -166,9 +166,13 @@ class GoogleDriveApiService implements DriveApiInterface
      *
      * @throws Exception
      */
-    public function createFile($folder_id = null, $title = null): DriveFile
+    public function createFile($folder_id = null, $title = null, $user = null): DriveFile
     {
-        $service = $this->driveConnectionService->setupService(Auth::user());
+        if (! $user) {
+            $user = Auth::user();
+        }
+
+        $service = $this->driveConnectionService->setupService($user);
 
         $file = new \Google_Service_Drive_DriveFile();
 

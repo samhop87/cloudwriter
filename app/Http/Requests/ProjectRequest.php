@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\ValidationException;
 
 class ProjectRequest extends FormRequest
 {
@@ -24,10 +26,22 @@ class ProjectRequest extends FormRequest
     public function rules()
     {
         return [
-//            'project_name' => 'required|string',
-//            'themeChoice' => 'required|string',
-//            'shapeChoice' => 'required|string',
-//            'pov.name' => 'required|string',
+            'project_name' => 'required|string',
+            'themeChoice' => 'required|array',
+            'themeChoice.*.name' => 'required|string',
+            'shapeChoice' => 'required|integer',
+            'pov.name' => 'required|string',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'project_name.required' => 'Please enter a project name.',
+            'themeChoice.*.name.required' => 'Please select a theme.',
+            'themeChoice.required' => 'Please select a theme.',
+            'shapeChoice.required' => 'Please select a story shape.',
+            'pov.name.required' => 'Please select a point of view.',
         ];
     }
 }

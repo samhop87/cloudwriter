@@ -1,15 +1,11 @@
 <script>
 export default {
-    props: {
-        shapes: Object,
-    },
+    props: ['shapes', 'modelValue'],
+    emits: ['update:modelValue'],
     data() {
         return {
             selectedShape: null,
         }
-    },
-    computed: {
-
     },
     methods: {
         shapeImage(image) {
@@ -19,10 +15,12 @@ export default {
             if (this.selectedShape === id) {
                 this.selectedShape = null;
                 this.$emit('shapeSelected', null)
+                this.$emit('update:modelValue', null)
                 return;
             }
             this.selectedShape = id;
             this.$emit('shapeSelected', id)
+            this.$emit('update:modelValue', id)
         }
     }
 }
@@ -30,8 +28,10 @@ export default {
 
 <template>
     <div>
+        <p class="text-cleomagenta">{{ $page.props.errors.shapeChoice }}</p>
         <section class="py-10">
-            <div class="mx-auto grid max-w-6xl  grid-cols-1 gap-6 p-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            <div class="mx-auto grid max-w-6xl  grid-cols-1 gap-6 p-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+                 :class="$page.props.errors.shapeChoice ? 'border-red-200 border-4 rounded-md' : ''">
                 <article @click="selectShape(element.id)" v-for="element in shapes" :key="element.id" :class="{'border-4 border-black': selectedShape === element.id}"
                          class="rounded-xl bg-white p-3 shadow-lg hover:shadow-xl">
                     <a href="#">
