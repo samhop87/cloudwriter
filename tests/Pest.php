@@ -13,7 +13,7 @@
 
 use Illuminate\Support\Facades\Http;
 
-uses(\Tests\OverallTestCase::class);
+uses(\Tests\OverallTestCase::class)->in('Feature', 'Unit');
 
 /*
 |--------------------------------------------------------------------------

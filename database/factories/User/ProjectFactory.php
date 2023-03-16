@@ -4,6 +4,7 @@ namespace Database\Factories\User;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;
 
 /**
@@ -11,6 +12,7 @@ use Illuminate\Support\Str;
  */
 class ProjectFactory extends Factory
 {
+    use WithFaker;
     /**
      * Define the model's default state.
      *

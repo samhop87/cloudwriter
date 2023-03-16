@@ -7,7 +7,7 @@ use Illuminate\Support\Collection;
 
 interface ChatGPTServiceInterface
 {
-    public function nextSentence();
+    public function makeCall(string $prompt): string;
 
     public function generatePrompts(Project $project, Collection $file_ids);
 }
