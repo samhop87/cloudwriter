@@ -7,14 +7,9 @@ use App\Jobs\CreateProjectOnGoogle;
 use App\Models\User\Project;
 use App\Services\GoogleDriveApiService;
 use Google\Service\Drive\DriveFile;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Str;
 use Mockery\MockInterface;
-use Tests\OverallTestCase;
-
-uses(OverallTestCase::class);
-uses(WithFaker::class);
 
 beforeEach(function () {
     $this->person = $this->createUser(authorised: true);

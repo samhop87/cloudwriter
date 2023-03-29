@@ -52,10 +52,12 @@ class CreateNewProjectFolders implements ShouldQueue
             $files->push($file->getId());
         }
 
-        // Contains file IDs as keys, and prompts as values.
+        // Contains file IDs as keys
         $filesArray = $chatGPTService->generatePrompts(project: $this->project, file_ids: $files);
 
-
+        foreach ($filesArray as $file_id => $prompt) {
+            UpdateFile::dispatch($file_id, $prompt);
+        }
         // TODO: broadcast success
     }
 }

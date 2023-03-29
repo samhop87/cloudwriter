@@ -2,10 +2,9 @@
 
 namespace Tests;
 
-use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
 
 abstract class OverallTestCase extends TestCase
 {
-
+    use WithFaker;
 }
