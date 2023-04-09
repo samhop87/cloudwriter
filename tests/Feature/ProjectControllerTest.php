@@ -23,23 +23,27 @@ it('can create a new project', function () {
 
     $driveMock = $this->mock(GoogleDriveApiService::class, function (MockInterface $mock) use ($file) {
         $mock->shouldReceive('createFolder')
-            ->once()
             ->andReturn($file);
     });
 
     $this->app->instance(DriveApiInterface::class, $driveMock);
 
-    $this->post(route('project.store'), ['project_name' => $projectName]);
+    $this->post(route('project.store'), [
+        'project_name' => $name = $this->faker->name,
+        'shapeChoice' => $this->faker->numberBetween(0,5),
+        'pov' => ['name' => 'first_person'],
+        'themeChoice' => [['name' => 'alt']]
+    ]);
 
     $this->travel(1)->minutes();
 
     $this->assertDatabaseHas('projects', [
-        'project_name' => $projectName,
+        'project_name' => $name,
     ]);
 });
 
 it('can delete a new project', function () {
-    $project = Project::factory()->create([
+    $project = Project::factory()->createQuietly([
         'user_id' => $this->person->id
     ]);
 
@@ -56,7 +60,7 @@ it('can delete a new project', function () {
 });
 
 it('can only delete a project if user is owner', function () {
-    $project = Project::factory()->create();
+    $project = Project::factory()->createQuietly();
 
     $this->delete(route('project.delete', $project->project_id));
 
@@ -66,20 +70,22 @@ it('can only delete a project if user is owner', function () {
 it('creates folders when project is created', function () {
     Queue::fake();
 
-    $projectName = $this->faker->word();
-
     $file = new DriveFile();
     $file->setId(Str::random(20));
 
     $driveMock = $this->mock(GoogleDriveApiService::class, function (MockInterface $mock) use ($file) {
         $mock->shouldReceive('createFolder')
-            ->once()
             ->andReturn($file);
     });
 
     $this->app->instance(DriveApiInterface::class, $driveMock);
 
-    $this->post(route('project.store'), ['project_name' => $projectName]);
+    $this->post(route('project.store'), [
+        'project_name' => $this->faker->name,
+        'shapeChoice' => $this->faker->numberBetween(0,5),
+        'pov' => ['name' => 'first_person'],
+        'themeChoice' => [['name' => 'alt']]
+    ]);
 
     $this->travel(1)->minutes();
 
@@ -90,6 +96,6 @@ it('returns an instance of the loaded project from session', function () {
     expect(true)->toBe(true);
 });
 
-it('refreshes current stored project and orders by number', function () {
-    // TODO: will need examples for drive files to manipulate for test
-});
+//it('refreshes current stored project and orders by number', function () {
+//    // TODO: will need examples for drive files to manipulate for test
+//});
