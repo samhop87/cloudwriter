@@ -12,7 +12,7 @@ class ChatGPTService implements ChatGPTServiceInterface
     public function makeCall(string $prompt): string
     {
         return OpenAI::completions()->create([
-            'model' => 'text-davinci-003',
+            'model' => 'text-davinci-003', // TODO: model might need to change?
             'prompt' => $prompt,
             'max_tokens' => 2048,
         ])->choices[0]->text;

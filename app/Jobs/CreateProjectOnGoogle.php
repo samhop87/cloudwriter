@@ -3,7 +3,6 @@
 namespace App\Jobs;
 
 use App\Interfaces\DriveApiInterface;
-use App\Interfaces\DriveConnectionInterface;
 use App\Models\User;
 use App\Models\User\Project;
 use Illuminate\Bus\Queueable;

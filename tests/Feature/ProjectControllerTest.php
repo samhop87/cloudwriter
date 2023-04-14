@@ -16,8 +16,6 @@ beforeEach(function () {
 });
 
 it('can create a new project', function () {
-    $projectName = $this->faker->word();
-
     $file = new DriveFile();
     $file->setId(Str::random(20));
 

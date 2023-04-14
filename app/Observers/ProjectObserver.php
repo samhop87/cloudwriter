@@ -4,7 +4,6 @@ namespace App\Observers;
 
 use App\Jobs\CreateNewProjectFolders;
 use App\Jobs\CreateProjectOnGoogle;
-use App\Models\User;
 use App\Models\User\Project;
 
 class ProjectObserver
